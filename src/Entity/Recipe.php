@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
+#[ORM\Index(columns: ['title'])]
 class Recipe
 {
     #[ORM\Id]
@@ -31,6 +34,24 @@ class Recipe
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $image = null;
+
+    /**
+     * @var Collection<int, RecipeIngredient>
+     */
+    #[ORM\OneToMany(targetEntity: RecipeIngredient::class, mappedBy: 'recipe', orphanRemoval: true)]
+    private Collection $recipeIngredients;
+
+    /**
+     * @var Collection<int, RecipeStep>
+     */
+    #[ORM\OneToMany(targetEntity: RecipeStep::class, mappedBy: 'recipe', orphanRemoval: true)]
+    private Collection $recipeSteps;
+
+    public function __construct()
+    {
+        $this->recipeIngredients = new ArrayCollection();
+        $this->recipeSteps = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +126,66 @@ class Recipe
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecipeIngredient>
+     */
+    public function getRecipeIngredients(): Collection
+    {
+        return $this->recipeIngredients;
+    }
+
+    public function addRecipeIngredient(RecipeIngredient $recipeIngredient): static
+    {
+        if (!$this->recipeIngredients->contains($recipeIngredient)) {
+            $this->recipeIngredients->add($recipeIngredient);
+            $recipeIngredient->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeIngredient(RecipeIngredient $recipeIngredient): static
+    {
+        if ($this->recipeIngredients->removeElement($recipeIngredient)) {
+            // set the owning side to null (unless already changed)
+            if ($recipeIngredient->getRecipe() === $this) {
+                $recipeIngredient->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecipeStep>
+     */
+    public function getRecipeSteps(): Collection
+    {
+        return $this->recipeSteps;
+    }
+
+    public function addRecipeStep(RecipeStep $recipeStep): static
+    {
+        if (!$this->recipeSteps->contains($recipeStep)) {
+            $this->recipeSteps->add($recipeStep);
+            $recipeStep->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeStep(RecipeStep $recipeStep): static
+    {
+        if ($this->recipeSteps->removeElement($recipeStep)) {
+            // set the owning side to null (unless already changed)
+            if ($recipeStep->getRecipe() === $this) {
+                $recipeStep->setRecipe(null);
+            }
+        }
 
         return $this;
     }
