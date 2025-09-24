@@ -14,7 +14,7 @@ final class Version20250915204533 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create tables for ingredients, recipe steps and units of measurement';
     }
 
     public function up(Schema $schema): void
