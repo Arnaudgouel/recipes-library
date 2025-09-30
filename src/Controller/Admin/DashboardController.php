@@ -2,6 +2,10 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Ingredient;
+use App\Entity\Recipe;
+use App\Entity\RecipeStep;
+use App\Entity\Unit;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -13,12 +17,12 @@ class DashboardController extends AbstractDashboardController
 {
     public function index(): Response
     {
-        return parent::index();
+        // return parent::index();
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
         // 1.1) If you have enabled the "pretty URLs" feature:
-        // return $this->redirectToRoute('admin_user_index');
+        return $this->redirectToRoute('admin_recipe_index');
         //
         // 1.2) Same example but using the "ugly URLs" that were used in previous EasyAdmin versions:
         // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
@@ -39,12 +43,19 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('App');
+            ->setTitle('Mon site de recettes');
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        return [
+            MenuItem::linkToDashboard('Accueil', 'fa fa-home'),
+            MenuItem::section('Recettes'),
+            MenuItem::linkToCrud('Recettes', 'fas fa-list', Recipe::class),
+            MenuItem::linkToCrud('Ingrédients', 'fas fa-list', Ingredient::class),
+            MenuItem::linkToCrud('Etapes', 'fas fa-list', RecipeStep::class),
+            MenuItem::linkToCrud('Unités', 'fas fa-list', Unit::class)
+        ];
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }
