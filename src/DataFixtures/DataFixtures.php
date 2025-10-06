@@ -30,11 +30,7 @@ class DataFixtures extends Fixture
         // Créer des ingrédients
         $ingredients = $this->createIngredients($manager);
         echo "Ingredients created: " . count($ingredients) . "\n";
-        
-        // Créer un utilisateur admin
-        $admin = $this->createAdminUser($manager);
-        echo "Admin user created\n";
-        
+
         // Créer des recettes avec leurs ingrédients et étapes
         $this->createRecipes($manager, $ingredients, $units);
         echo "Recipes created\n";
