@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Unit
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column(length: 20)]
     private ?string $code = null;
 
