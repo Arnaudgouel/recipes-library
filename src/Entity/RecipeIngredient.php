@@ -39,6 +39,11 @@ class RecipeIngredient
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $note = null;
 
+    public function __toString(): string
+    {
+        return $this->ingredient ? $this->ingredient->getName() : 'Ingrédient sans nom';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
