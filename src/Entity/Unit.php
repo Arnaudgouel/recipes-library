@@ -18,6 +18,11 @@ class Unit
     #[ORM\Column(length: 255)]
     private ?string $kind = null;
 
+    public function __toString(): string
+    {
+        return $this->label;
+    }
+
     public function getCode(): ?string
     {
         return $this->code;

@@ -1,0 +1,11 @@
+{
+  "version": "1.0.4",
+  "createdAt": "2025-10-08T13:55:34.252Z",
+  "updatedAt": "2025-10-08T13:55:34.253Z",
+  "options": {
+    "ignoredControllerIdentifiers": [
+      "csrf-protection"
+    ],
+    "ignoredAttributes": []
+  }
+}

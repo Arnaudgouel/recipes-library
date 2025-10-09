@@ -7,6 +7,7 @@ use App\Form\RecipeIngredientType;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -46,19 +47,26 @@ class RecipeCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
-        yield TextField::new('title');
-        yield TextEditorField::new('description');
-        yield ImageField::new('image')
-            ->setUploadedFileNamePattern('[year]/[month]/[day]/[slug]-[uuid].[extension]')
-            ->setUploadDir('public/uploads/recipes-images');
-        yield IntegerField::new('servings');
-        yield IntegerField::new('prepMinutes');
-        yield IntegerField::new('cookMinutes');
-        yield CollectionField::new('recipeIngredients')
-            ->setEntryType(RecipeIngredientType::class)
+        yield TextField::new('title', 'Titre')->setColumns(12);
+        yield TextEditorField::new('description', 'Description')->setColumns(12);
+        yield ImageField::new('image', 'Image')
+            ->setUploadedFileNamePattern('[year][month][day]-[slug]_[uuid].[extension]')
+            ->setUploadDir('public/uploads/recipes-images')
+            ->setBasePath('uploads/recipes-images');
+        yield FormField::addRow();
+        yield IntegerField::new('servings', 'Nombre de personnes')->setColumns(2);
+        yield IntegerField::new('prepMinutes', 'Temps de préparation (minutes)')->setColumns(5);
+        yield IntegerField::new('cookMinutes', 'Temps de cuisson (minutes)')->setColumns(5);
+        yield CollectionField::new('recipeIngredients', 'Ingrédients')
+            ->useEntryCrudForm(RecipeIngredientCrudController::class)
             ->hideOnIndex()
+            ->setColumns(12);
             // ->setEntryToStringMethod(fn(Recipe $recipe): string => $recipe->getRecipeIngredients()->getIngredient()->getName())
             // ->setEntryToStringMethod('getDisplayQuantity')
         ;
+        yield CollectionField::new('recipeSteps', 'Étapes')
+            ->useEntryCrudForm(RecipeStepCrudController::class)
+            ->hideOnIndex()
+            ->setColumns(12);
     }
 }

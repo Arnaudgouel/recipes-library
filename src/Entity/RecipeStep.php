@@ -28,6 +28,11 @@ class RecipeStep
     #[ORM\Column(nullable: true)]
     private ?int $durationMin = null;
 
+    public function __toString(): string
+    {
+        return $this->position . ' - ' . substr($this->instruction, 0, 40) . '...';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
