@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Import de recettes{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ path('admin') }}">
+                        <i class="fa fa-home"></i> Admin
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\RecipeCrudController'}) }}">
+                        Recettes
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    Import CSV
+                </li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fa fa-upload"></i>
+                            Import de recettes depuis un fichier CSV
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <h5><i class="fa fa-info-circle"></i> Format CSV requis</h5>
+                            <p>Votre fichier CSV doit contenir les colonnes suivantes :</p>
+                            <ul>
+                                <li><strong>title</strong> : Titre de la recette (obligatoire)</li>
+                                <li><strong>description</strong> : Description de la recette (optionnel)</li>
+                                <li><strong>servings</strong> : Nombre de portions (optionnel)</li>
+                                <li><strong>prepMinutes</strong> : Temps de préparation en minutes (optionnel)</li>
+                                <li><strong>cookMinutes</strong> : Temps de cuisson en minutes (optionnel)</li>
+                                <li><strong>image</strong> : Nom du fichier image (optionnel)</li>
+                                <li><strong>ingredients</strong> : Format "Nom:Quantité:Unité|Nom2:Quantité2:Unité2" (optionnel)</li>
+                                <li><strong>steps</strong> : Format "Étape 1|Étape 2|Étape 3" (optionnel)</li>
+                            </ul>
+                            <p><strong>Exemple :</strong></p>
+                            <code>
+                                "Tarte aux pommes","Une tarte traditionnelle",6,30,45,,"Pâte brisée:1:pièce|Pommes:6:pièce|Sucre:100:g","1. Étaler la pâte|2. Disposer les pommes|3. Cuire au four"
+                            </code>
+                        </div>
+
+                        <form method="post" enctype="multipart/form-data" class="mt-4" action="{{ path('admin_recipe_import') }}">
+                            <div class="form-group">
+                                <label for="csv_file" class="form-label">
+                                    <i class="fa fa-file-csv"></i>
+                                    Sélectionner le fichier CSV
+                                </label>
+                                <input type="file" 
+                                       class="form-control" 
+                                       id="csv_file" 
+                                       name="csv_file" 
+                                       accept=".csv,text/csv" 
+                                       required>
+                                <div class="form-text">
+                                    Fichiers acceptés : .csv (taille maximum : 5MB)
+                                </div>
+                            </div>
+
+                            <div class="form-actions mt-4">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-upload"></i>
+                                    Importer les recettes
+                                </button>
+                                <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\RecipeCrudController'}) }}" 
+                                   class="btn btn-secondary">
+                                    <i class="fa fa-arrow-left"></i>
+                                    Retour à la liste des recettes
+                                </a>
+                            </div>
+                        </form>
+
+                        <div class="mt-4">
+                            <h5><i class="fa fa-download"></i> Télécharger un exemple</h5>
+                            <p>Vous pouvez télécharger un fichier d'exemple pour comprendre le format :</p>
+                            <a href="{{ asset('import-format.csv') }}" 
+                               class="btn btn-outline-primary" 
+                               download="exemple-recettes.csv">
+                                <i class="fa fa-download"></i>
+                                Télécharger l'exemple CSV
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+        
+        .form-actions {
+            border-top: 1px solid #dee2e6;
+            padding-top: 1rem;
+        }
+        
+        code {
+            background-color: #f8f9fa;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            display: block;
+            margin-top: 0.5rem;
+            word-break: break-all;
+        }
+    </style>
+{% endblock %}
