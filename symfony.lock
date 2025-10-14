@@ -69,7 +69,7 @@
         },
         "files": [
             ".env.test",
-            "phpunit.xml.dist",
+            "phpunit.dist.xml",
             "tests/bootstrap.php",
             "bin/phpunit"
         ]
