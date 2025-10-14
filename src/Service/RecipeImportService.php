@@ -28,18 +28,18 @@ class RecipeImportService
 
         // Validation du fichier
         if (!$this->validateFile($file)) {
-            return ['success' => false, 'errors' => $this->errors];
+            return ['success' => false, 'imported' => 0, 'errors' => $this->errors];
         }
 
         // Lecture du CSV
         $data = $this->readCsvFile($file);
         if (!$data) {
-            return ['success' => false, 'errors' => $this->errors];
+            return ['success' => false, 'imported' => 0, 'errors' => $this->errors];
         }
 
         // Validation du format
         if (!$this->validateCsvFormat($data)) {
-            return ['success' => false, 'errors' => $this->errors];
+            return ['success' => false, 'imported' => 0, 'errors' => $this->errors];
         }
 
         // Import des recettes
@@ -76,7 +76,7 @@ class RecipeImportService
         }
 
         $data = [];
-        $header = fgetcsv($handle, 0, ',');
+        $header = fgetcsv($handle, 0, ',', escape: '\\');
         
         if (!$header) {
             $this->errors[] = 'Le fichier CSV est vide ou corrompu.';
@@ -92,7 +92,7 @@ class RecipeImportService
         }
 
         $lineNumber = 1;
-        while (($row = fgetcsv($handle, 0, ',')) !== false) {
+        while (($row = fgetcsv($handle, 0, ',', escape: '\\')) !== false) {
             $lineNumber++;
             if (count($row) !== count($header)) {
                 $this->errors[] = "Ligne $lineNumber: Nombre de colonnes incorrect.";

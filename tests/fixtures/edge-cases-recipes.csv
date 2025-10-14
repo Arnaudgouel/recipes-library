@@ -1,0 +1,5 @@
+title,description,servings,prepMinutes,cookMinutes,image,ingredients,steps
+"Recette minimale","",,,,"","",""
+"Recette complète","Description détaillée de la recette",4,20,30,"image.jpg","Tomates:500:g|Basilic:10:g|Ail:2:gousse","1. Préparer les ingrédients|2. Cuire les tomates|3. Ajouter le basilic|4. Servir chaud"
+"Recette avec caractères spéciaux","Recette avec des caractères spéciaux: éàçù€£¥",2,15,25,"image-éàçù.jpg","Ingrédient spécial:100:g|Autre ingrédient:200:ml","1. Étape avec caractères spéciaux|2. Deuxième étape"
+"Recette avec guillemets","Recette avec des \"guillemets\" dans le texte",3,10,20,"image.jpg","\"Ingrédient avec guillemets\":100:g","1. Étape avec \"guillemets\"|2. Étape normale"

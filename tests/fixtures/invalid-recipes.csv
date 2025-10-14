@@ -1,0 +1,5 @@
+title,description,servings,prepMinutes,cookMinutes,image,ingredients,steps
+"","Description sans titre",2,15,30,"test.jpg","Ingrédient:100:g","1. Première étape"
+"Recette avec ingrédient invalide","Description test",2,15,30,"test.jpg","Format invalide","1. Première étape"
+"Recette avec colonnes manquantes","Description test",2,15,30,"test.jpg"
+"Recette avec trop de colonnes","Description test",2,15,30,"test.jpg","Ingrédient:100:g","1. Première étape","Colonne en trop"
