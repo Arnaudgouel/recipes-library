@@ -1,11 +1,9 @@
-body {
-    background-color: skyblue;
-}
-
 :root,
 [data-bs-theme="dark"],
 [data-bs-theme="light"] {
     --bs-primary-text-emphasis: #362121;
+    --bs-secondary: #D2691E;
+        --bs-secondary-rgb: 210, 105, 30;
     --bs-dark: #4b2e2d;
     --bs-dark-rgb: 75, 46, 45;
     --bs-emphasis-color: #fff;
@@ -13,6 +11,8 @@ body {
     --bs-light: #f5f5dc;
     --bs-light-rgb: 245, 245, 220;
     --bs-body-bg: #F5F5DC;
+    --bs-bg-bottom-recipe-header: #ECECD1;
+        --bs-gradient: linear-gradient(to bottom, var(--bs-body-bg), var(--bs-bg-bottom-recipe-header));
 }
 
 .nav-link {
@@ -38,5 +38,72 @@ body {
     .form-control {
         background-color: var(--bs-dark);
         color: var(--bs-emphasis-color);
+    }
+}
+.recipe-image {
+    width: 930px;
+    height: 580px;
+    object-fit: cover;
+}
+
+.recipe-image-superposition {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 930px;
+    height: 580px;
+    object-fit: cover;
+    opacity: 0.5;
+}
+
+h1 {
+    font-size: 3.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    color: var(--bs-primary-text-emphasis);
+}
+
+.card-title {
+    color: var(--bs-primary-text-emphasis);
+}
+
+.card-body {
+    color: var(--bs-primary-text-emphasis);
+}
+
+.recipe-header {
+    background: var(--bs-gradient);
+}
+
+.recipe-ingredients-title {
+    margin-top: 3rem;
+}
+
+.ingredient-checkbox {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 1.25rem;
+    margin-right: 1.25rem;
+
+}
+
+.form-check-input {
+    &:checked {
+        background-color: var(--bs-secondary);
+        border-color: var(--bs-secondary);
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-secondary-rgb), 0.25);
+        border-color: var(--bs-secondary);
     }
 }

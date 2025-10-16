@@ -3,12 +3,56 @@
 {% block title %}TEST DE LA RECETTE{% endblock %}
 
 {% block body %}
- <h1>{{ recipe.title }}</h1>
- <p>{{ recipe.description }}</p>
- <p>{{ recipe.servings }}</p>
- <p>{{ recipe.prepMinutes }}</p>
- <p>{{ recipe.cookMinutes }}</p>
- <p>{{ recipe.image }}</p>
+  <div class="container-fluid recipe-header">
+    <div class="container">
+      <div class="row">
+        <img src="{{ asset('uploads/recipes-images/' ~ recipe.image) }}" alt="{{ recipe.title }}" class="img-fluid recipe-image mt-5">
+        <img src="{{ asset('images/recipe-image-superposition.svg') }}" alt="Superposition" class="img-fluid recipe-image-superposition">
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+          <h1 class="mb-0">{{ recipe.title }}</h1>
+        </div>
+      </div>
+      <div class="row mt-2 pb-3">
+        <div class="col-auto">
+          Temps de préparation : {{ recipe.prepMinutes }} minutes
+        </div>
+        <div class="col-auto">
+          Temps de cuisson : {{ recipe.cookMinutes }} minutes
+        </div>
+        <div class="col-auto">
+          Nombre de personnes : {{ recipe.servings }}
+        </div>
+      </div>
+      <div class="row pb-3">
+        <div class="col-12">
+          <h2>{{recipe.description |raw}}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h3 class="text-center recipe-ingredients-title">Ingrédients</h3>
+      </div>
+      <div class="row g-3">
+        {% for ingredient in recipe.recipeIngredients %}
+          <div class="col-6 col-lg-4 col-xl-3">
+            <div class="card bg-white border-0">
+              <div class="card-body">
+                <h4 class="card-title">{{ ingredient.ingredient.name }}</h4>
+                <p class="card-text">{{ ingredient.quantity }} {{ ingredient.unit.label }}</p>
+                <input type="checkbox" class="form-check-input ingredient-checkbox">
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+ {# {{ dump(recipe.recipeIngredients) }} #}
  {# <p>{{ recipe.recipeIngredients }}</p>
  <p>{{ recipe.recipeSteps }}</p> #}
 {% endblock %}
