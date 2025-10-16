@@ -100,9 +100,15 @@ class RecipeCrudController extends AbstractCrudController
             ->setCssClass('btn btn-success')
             ->createAsGlobalAction();
 
+        $showAction = Action::new('show', 'Voir')
+            ->setIcon('fa fa-eye')
+            ->linkToUrl(fn(Recipe $recipe) => $this->generateUrl('app_recipe_show', ['id' => $recipe->getId()]))
+            ->setCssClass('btn btn-primary');
+
         return $actions
             ->add(Crud::PAGE_INDEX, $importAction)
-            ->reorder(Crud::PAGE_INDEX, ['import', 'new']);
+            ->add(Crud::PAGE_INDEX, $showAction)
+            ->reorder(Crud::PAGE_INDEX, ['import', 'new', 'show']);
     }
 
     #[Route('/admin/recipe-import', name: 'admin_recipe_import', methods: ['GET', 'POST'])]

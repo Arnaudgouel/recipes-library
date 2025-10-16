@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TEST DE LA RECETTE{% endblock %}
+
+{% block body %}
+ <h1>{{ recipe.title }}</h1>
+ <p>{{ recipe.description }}</p>
+ <p>{{ recipe.servings }}</p>
+ <p>{{ recipe.prepMinutes }}</p>
+ <p>{{ recipe.cookMinutes }}</p>
+ <p>{{ recipe.image }}</p>
+ {# <p>{{ recipe.recipeIngredients }}</p>
+ <p>{{ recipe.recipeSteps }}</p> #}
+{% endblock %}

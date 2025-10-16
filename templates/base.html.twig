@@ -12,6 +12,9 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {{ include('layout/_navbar.html.twig') }}
+        <main class="container-fluid">
+            {% block body %}{% endblock %}
+        </main>
     </body>
 </html>

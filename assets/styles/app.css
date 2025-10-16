@@ -1,3 +1,42 @@
 body {
     background-color: skyblue;
 }
+
+:root,
+[data-bs-theme="dark"],
+[data-bs-theme="light"] {
+    --bs-primary-text-emphasis: #362121;
+    --bs-dark: #4b2e2d;
+    --bs-dark-rgb: 75, 46, 45;
+    --bs-emphasis-color: #fff;
+    --bs-emphasis-color-rgb: #fff;
+    --bs-light: #f5f5dc;
+    --bs-light-rgb: 245, 245, 220;
+    --bs-body-bg: #F5F5DC;
+}
+
+.nav-link {
+    color: var(--bs-emphasis-color);
+}
+
+.btn-light {
+    background-color: var(--bs-light);
+    color: var(--bs-primary-text-emphasis);
+}
+
+.offcanvas {
+    background-color: var(--bs-dark);
+}
+
+.navbar {
+    --bs-navbar-toggler-border-color: var(--bs-emphasis-color);
+
+    .form-control::placeholder {
+        color: var(--bs-emphasis-color);
+    }
+
+    .form-control {
+        background-color: var(--bs-dark);
+        color: var(--bs-emphasis-color);
+    }
+}
