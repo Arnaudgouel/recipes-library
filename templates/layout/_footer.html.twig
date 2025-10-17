@@ -1,0 +1,19 @@
+<footer class="container-fluid px-0 py-3 text-bg-dark">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-auto">
+        <img src="{{ asset('images/logo.svg') }}" alt="Logo" class="bi" width="92" height="80">
+      </div>
+      <div class="col-auto d-flex align-items-center">
+        <a class="nav-link mb-0" href="{{ path('app_recipe_index') }}">Recettes de cuisine</a>
+      </div>
+    </div>
+    <div class="row pt-2 mt-2 border-top">
+      <div class="col-12">
+        <p class="text-center mb-0">
+          &copy; {{ "now"|date("Y") }} - Fait avec ❤️ pour ma famille
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
