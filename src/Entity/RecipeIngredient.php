@@ -90,6 +90,23 @@ class RecipeIngredient
         return $this->quantity;
     }
 
+    public function getFormattedQuantity(): ?string
+    {
+        if ($this->quantity === null) {
+            return null;
+        }
+
+        $quantity = (float) $this->quantity;
+
+        // Si la quantité est un entier (pas de décimales significatives), retourner comme entier
+        if ($quantity == (int) $quantity) {
+            return (string) (int) $quantity;
+        }
+
+        // Sinon, retourner la quantité avec les décimales
+        return $this->quantity;
+    }
+
     public function setQuantity(?string $quantity): static
     {
         $this->quantity = $quantity;

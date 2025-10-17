@@ -15,6 +15,9 @@
         --bs-gradient: linear-gradient(to bottom, var(--bs-body-bg), var(--bs-bg-bottom-recipe-header));
 }
 
+body {
+    font-family: "Roboto", sans-serif;
+}
 .nav-link {
     color: var(--bs-emphasis-color);
 }
@@ -40,20 +43,25 @@
         color: var(--bs-emphasis-color);
     }
 }
+.recipe-header-container {
+    padding: 0 6rem;
+    position: relative;
+}
 .recipe-image {
-    width: 930px;
-    height: 580px;
+    width: 100%;
+        max-height: 580px;
     object-fit: cover;
 }
 
 .recipe-image-superposition {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 930px;
-    height: 580px;
-    object-fit: cover;
-    opacity: 0.5;
+    bottom: 50%;
+        right: 40%;
+        transform: translate(50%, 50%);
+        width: 100%;
+        max-height: 580px;
+        object-fit: contain;
+        opacity: 0.7;
 }
 
 h1 {
@@ -83,8 +91,12 @@ h6 {
     background: var(--bs-gradient);
 }
 
+.recipe-ingredients,
+.recipe-steps {
+    padding: 1.5rem 0;
+}
 .recipe-ingredients-title {
-    margin-top: 3rem;
+    margin-top: 1.5rem;
 }
 
 .ingredient-checkbox {
@@ -96,7 +108,8 @@ h6 {
 
 }
 
-.form-check-input {
+.form-check-input,
+.form-control {
     &:checked {
         background-color: var(--bs-secondary);
         border-color: var(--bs-secondary);
