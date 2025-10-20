@@ -8,9 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Meilisearch\Bundle\Searchable;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[ORM\Index(columns: ['title'])]
+#[Searchable]
 class Recipe
 {
 
@@ -62,6 +65,7 @@ class Recipe
         return $this->id;
     }
 
+    #[Groups(['searchable'])]
     public function getTitle(): ?string
     {
         return $this->title;
@@ -162,6 +166,21 @@ class Recipe
         }
 
         return $this;
+    }
+
+    /**
+     * Get ingredient names for search indexing
+     */
+    #[Groups(['searchable'])]
+    public function getIngredientNames(): array
+    {
+        $ingredientNames = [];
+        foreach ($this->recipeIngredients as $recipeIngredient) {
+            if ($recipeIngredient->getIngredient()) {
+                $ingredientNames[] = $recipeIngredient->getIngredient()->getName();
+            }
+        }
+        return $ingredientNames;
     }
 
     /**

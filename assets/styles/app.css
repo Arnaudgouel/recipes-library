@@ -43,6 +43,18 @@ body {
         color: var(--bs-emphasis-color);
     }
 }
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--bs-dark);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
 .recipe-header-container {
     padding: 0 6rem;
     position: relative;

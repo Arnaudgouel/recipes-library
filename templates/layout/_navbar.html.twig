@@ -22,10 +22,11 @@
             <a class="nav-link" href="{{ path('app_recipe_index') }}">Recettes</a>
           </li>
         </ul>
-        <form class="d-flex mt-3 mt-lg-0" role="search">
+        {# <form class="d-flex mt-3 mt-lg-0" role="search">
           <input id="search" class="form-control me-2" type="search" placeholder="Cake, Muffin, Ail..." aria-label="Search"/>
           <button class="btn btn-outline-light" type="submit">Rechercher</button>
-        </form>
+        </form> #}
+        {{ component('RecipeSearch') }}
         <a type="button" href="{{ path('app_login') }}" class="btn btn-light mt-3 mt-lg-0 ms-lg-4">Connexion</a>
       </div>
     </div>

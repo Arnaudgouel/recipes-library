@@ -30,3 +30,9 @@ services:
     ports:
       - "5432"
 ###< doctrine/doctrine-bundle ###
+
+###> meilisearch/search-bundle ###
+  meilisearch:
+    ports:
+      - "7700"
+###< meilisearch/search-bundle ###

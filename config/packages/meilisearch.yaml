@@ -1,0 +1,10 @@
+meilisearch:
+    url: '%env(MEILISEARCH_URL)%' # URL of the Meilisearch server (mandatory)
+    api_key: '%env(MEILISEARCH_API_KEY)%' # API key to access the Meilisearch server (mandatory)
+    prefix: '%env(MEILISEARCH_PREFIX)%'
+    batchSize: 500
+    indices:
+        - name: recipes
+          class: App\Entity\Recipe
+          enable_serializer_groups: true
+          serializer_groups: ['searchable']
