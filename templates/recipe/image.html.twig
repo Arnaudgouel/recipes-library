@@ -1,0 +1,5 @@
+{% if recipe.image %}
+    <img src="{{ asset('uploads/recipes-images/' ~ recipe.image) }}" class="recipe-image img-fluid" alt="{{ recipe.title }}">
+{% else %}
+    <img src="{{ asset('images/recipe-placeholder.webp') }}" class="recipe-image" alt="{{ recipe.title }}">
+{% endif %}

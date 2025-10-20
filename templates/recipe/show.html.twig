@@ -1,12 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TEST DE LA RECETTE{% endblock %}
+{% block title %}
+	{{ recipe.title }}
+{% endblock %}
+
+
 
 {% block body %}
   <section class="container-fluid recipe-header">
     <div class="container recipe-header-container">
       <div class="row justify-content-center position-relative">
-        <img src="{{ asset('uploads/recipes-images/' ~ recipe.image) }}" alt="{{ recipe.title }}" class="img-fluid recipe-image mt-5">
+{{ include('recipe/image.html.twig', { recipe: recipe }) }}
+
+
         <img src="{{ asset('images/recipe-image-superposition.svg') }}" alt="Superposition" class="img-fluid recipe-image-superposition">
       </div>
       <div class="row mt-4">

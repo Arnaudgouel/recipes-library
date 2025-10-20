@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recettes - {{ parent() }}{% endblock %}
+
+{% block body %}
+<div class="recipe-listing-page">
+    <div class="container-fluid py-4">
+        <!-- En-tête de la page -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="recipe-header text-center py-5">
+                    <h1 class="display-4 mb-3">Nos Recettes</h1>
+                    <p class="lead">Découvrez notre collection de délicieuses recettes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Composant de listing avec filtres -->
+        <twig:RecipeListing  />
+    </div>
+</div>
+{% endblock %}

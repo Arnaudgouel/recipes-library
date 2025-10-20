@@ -33,7 +33,6 @@ class RecipeSearch
         }
 
         try {
-            dd($this->searchService->search($this->entityManager, Recipe::class, $this->query));
             return $this->searchService->search($this->entityManager, Recipe::class, $this->query);
         } catch (\Exception $e) {
             // En cas d'erreur Meilisearch, retourner un tableau vide
