@@ -1,16 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Recettes - {{ parent() }}{% endblock %}
+{% block title %}Liste de recettes
+{% endblock %}
+
 
 {% block body %}
 <div class="recipe-listing-page">
+<img src="{{ asset('images/recipe-listing-header.webp') }}" alt="Recettes" class="img-fluid recipe-listing-header">
+
+
     <div class="container-fluid py-4">
         <!-- En-tête de la page -->
         <div class="row mb-4">
-            <div class="col-12">
-                <div class="recipe-header text-center py-5">
-                    <h1 class="display-4 mb-3">Nos Recettes</h1>
-                    <p class="lead">Découvrez notre collection de délicieuses recettes</p>
+<div class="col-12 px-0">
+
+	<div class="recipe-header text-center p-5">
+		<h1 class="mb-3">Nos Recettes</h1>
+
+		<p class="lead">
+			Découvrez un monde de recettes gourmandes adaptées à vos envies ! Explorez une grande variété de cuisines, de styles de cuisson et de régimes alimentaires sur notre page de résultats. Que vous recherchiez des dîners rapides pour la semaine, des desserts gourmands ou des idées de repas sains, vous trouverez des recettes faciles à suivre. Filtrez par ingrédients, temps de préparation pour dénicher la recette parfaite pour chaque occasion. Lancez-vous et cuisinez votre prochain plat favori dès aujourd’hui !
+		</p>
+
+
                 </div>
             </div>
         </div>

@@ -3,9 +3,9 @@
         <div class="row">
             <!-- Sidebar avec filtres -->
             <div class="col-lg-3 col-md-4 mb-4">
-                <div class="card bg-light">
-                    <div class="card-header bg-secondary text-white">
-                        <h5 class="mb-0">Filtres</h5>
+                <div class="card bg-light border-0">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0 text-white">Filtres</h5>
                     </div>
                     <div class="card-body">
                         <form data-action="live#action" data-live-action-param="filter">
@@ -13,179 +13,179 @@
                             <div class="mb-3">
                                 <label for="search" class="form-label">Recherche</label>
                                 <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    id="search"
-                                    data-model="search"
-                                    value="{{ search }}"
-                                    placeholder="Titre, description, ingrédient..."
+                                type="text" 
+                                class="form-control bg-white text-dark"
+                                
+                                
+                                id="search"
+                                data-model="search"
+                                value="{{ search }}"
+                                placeholder="Titre, description, ingrédient..."
                                 />
                             </div>
-
+                            
                             <!-- Nombre de portions -->
                             <div class="mb-3">
                                 <label class="form-label">Nombre de portions</label>
                                 <div class="row">
-                                    <div class="col-6">
-                                        <select class="form-select" data-model="minServings">
-                                            <option value="">Min</option>
-                                            {% for servings in this.servingsOptions %}
-                                                <option value="{{ servings }}" {{ minServings == servings ? 'selected' : '' }}>
-                                                    {{ servings }}
-                                                </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="col-6">
-                                        <select class="form-select" data-model="maxServings">
-                                            <option value="">Max</option>
-                                            {% for servings in this.servingsOptions %}
-                                                <option value="{{ servings }}" {{ maxServings == servings ? 'selected' : '' }}>
-                                                    {{ servings }}
-                                                </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Temps de préparation -->
-                            <div class="mb-3">
-                                <label for="maxPrepTime" class="form-label">Temps de préparation max</label>
-                                <select class="form-select" id="maxPrepTime" data-model="maxPrepTime">
-                                    <option value="">Aucune limite</option>
-                                    {% for time, label in this.timeOptions %}
-                                        <option value="{{ time }}" {{ maxPrepTime == time ? 'selected' : '' }}>
-                                            {{ label }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <!-- Temps de cuisson -->
-                            <div class="mb-3">
-                                <label for="maxCookTime" class="form-label">Temps de cuisson max</label>
-                                <select class="form-select" id="maxCookTime" data-model="maxCookTime">
-                                    <option value="">Aucune limite</option>
-                                    {% for time, label in this.timeOptions %}
-                                        <option value="{{ time }}" {{ maxCookTime == time ? 'selected' : '' }}>
-                                            {{ label }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <!-- Ingrédients -->
-                            <div class="mb-3">
-                                <label class="form-label">Ingrédients</label>
-                                <div class="ingredients-filter" style="max-height: 200px; overflow-y: auto;">
-                                    {% for ingredient in this.availableIngredients %}
-                                        <div class="form-check">
-                                            <input 
-                                                class="form-check-input" 
-                                                type="checkbox" 
-                                                id="ingredient_{{ ingredient.id }}"
-                                                data-model="selectedIngredients"
-                                                value="{{ ingredient.id }}"
-                                                {{ ingredient.id in selectedIngredients ? 'checked' : '' }}
-                                            />
-                                            <label class="form-check-label" for="ingredient_{{ ingredient.id }}">
-                                                {{ ingredient.name }}
-                                            </label>
+                                    <div class="col-12">
+                                        <label class="form-label small">Minimum</label>
+                                        <input type="range" class="form-range" min="{{ this.servingsOptions|first }}" max="{{ this.servingsOptions|last }}" value="{{ minServings ?: this.servingsOptions|first }}" data-model="minServings">
+                                        <div class="text-center small text-muted">{{ minServings ?: this.servingsOptions|first }}
+                                            portions</div>
+                                            
+                                            
                                         </div>
-                                    {% endfor %}
+                                        <div class="col-12">
+                                            <label class="form-label small">Maximum</label>
+                                            <input type="range" class="form-range" min="{{ this.servingsOptions|first }}" max="{{ this.servingsOptions|last }}" value="{{ maxServings ?: this.servingsOptions|last }}" data-model="maxServings">
+                                            <div class="text-center small text-muted">{{ maxServings ?: this.servingsOptions|last }}
+                                                portions</div>
+                                                
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Temps de préparation -->
+                                    <div class="mb-3">
+                                        <label for="maxPrepTime" class="form-label">Temps de préparation max</label>
+                                        <select class="form-select" id="maxPrepTime" data-model="maxPrepTime">
+                                            <option value="">Aucune limite</option>
+                                            {% for time, label in this.timeOptions %}
+                                            <option value="{{ time }}" {{ maxPrepTime == time ? 'selected' : '' }}>
+                                                {{ label }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Temps de cuisson -->
+                                    <div class="mb-3">
+                                        <label for="maxCookTime" class="form-label">Temps de cuisson max</label>
+                                        <select class="form-select" id="maxCookTime" data-model="maxCookTime">
+                                            <option value="">Aucune limite</option>
+                                            {% for time, label in this.timeOptions %}
+                                            <option value="{{ time }}" {{ maxCookTime == time ? 'selected' : '' }}>
+                                                {{ label }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Ingrédients -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Ingrédients</label>
+                                        <select
+                                            name="ingredient"
+                                            class="form-select"
+                                            multiple
+                                            data-model="selectedIngredients"
+                                            {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
+                                                url: path('ux_entity_autocomplete', { alias: 'ingredient' }),
+                                                'search-on-focus': true,
+                                                'min-characters': 0,
+                                                'max-results': 20,
+                                                'multiple': true
+                                            }) }}
+                                        >
+                                            {% for ingredient in this.availableIngredients %}
+                                            <option value="{{ ingredient.id }}" {{ ingredient.id in selectedIngredients ? 'selected' : '' }}>
+                                                {{ ingredient.name }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                
+                                <!-- Boutons -->
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-secondary">
+                                        <i class="fas fa-filter"></i> Appliquer les filtres
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" data-action="live#action" data-live-action-param="resetFilters">
+                                        <i class="fas fa-undo"></i> Réinitialiser
+                                    </button>
                                 </div>
-                            </div>
-
-                            <!-- Boutons -->
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-secondary">
-                                    <i class="fas fa-filter"></i> Appliquer les filtres
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary" data-action="live#action" data-live-action-param="resetFilters">
-                                    <i class="fas fa-undo"></i> Réinitialiser
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contenu principal -->
-            <div class="col-lg-9 col-md-8">
-                <!-- En-tête avec tri et pagination -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h2>Recettes</h2>
-                        <p class="text-muted mb-0">{{ this.totalRecipes }} recette(s) trouvée(s)</p>
-                    </div>
-                    <div class="d-flex align-items-center gap-3">
-                        <!-- Tri -->
-                        <div class="d-flex align-items-center gap-2">
-                            <label for="sortBy" class="form-label mb-0">Trier par:</label>
-                            <select class="form-select" id="sortBy" data-model="sortBy" style="width: auto;">
-                                {% for value, label in this.sortOptions %}
-                                    <option value="{{ value }}" {{ sortBy == value ? 'selected' : '' }}>
-                                        {{ label }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                            <select class="form-select" data-model="sortOrder" style="width: auto;">
-                                <option value="ASC" {{ sortOrder == 'ASC' ? 'selected' : '' }}>Croissant</option>
-                                <option value="DESC" {{ sortOrder == 'DESC' ? 'selected' : '' }}>Décroissant</option>
-                            </select>
+                            </form>
                         </div>
                     </div>
                 </div>
-
-                <!-- Grille des recettes -->
-                {% if this.recipes|length > 0 %}
+                
+                <!-- Contenu principal -->
+                <div class="col-lg-9 col-md-8">
+                    <!-- En-tête avec tri et pagination -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h2>Recettes</h2>
+                            <p class="text-muted mb-0">{{ this.totalRecipes }} recette(s) trouvée(s)</p>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <!-- Tri -->
+                            <div class="d-flex align-items-center gap-2">
+                                <label for="sortBy" class="form-label mb-0">Trier par:</label>
+                                <select class="form-select" id="sortBy" data-model="sortBy" style="width: auto;">
+                                    {% for value, label in this.sortOptions %}
+                                    <option value="{{ value }}" {{ sortBy == value ? 'selected' : '' }}>
+                                        {{ label }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <select class="form-select" data-model="sortOrder" style="width: auto;">
+                                    <option value="ASC" {{ sortOrder == 'ASC' ? 'selected' : '' }}>Croissant</option>
+                                    <option value="DESC" {{ sortOrder == 'DESC' ? 'selected' : '' }}>Décroissant</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Grille des recettes -->
+                    {% if this.recipes|length > 0 %}
                     <div class="row">
                         {% for recipe in this.recipes %}
-                           {{ include('recipe/card.html.twig', { recipe: recipe }) }} 
+                        {{ include('recipe/card.html.twig', { recipe: recipe }) }} 
                         {% endfor %}
                     </div>
-
+                    
                     <!-- Pagination -->
                     {% if this.totalPages > 1 %}
-                        <nav aria-label="Pagination des recettes" class="mt-4">
-                            <ul class="pagination justify-content-center">
-                                <!-- Page précédente -->
-                                {% if page > 1 %}
-                                    <li class="page-item">
-                                        <button class="page-link" data-action="live#action" data-live-action-param="previousPage">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </button>
-                                    </li>
-                                {% endif %}
-
-                                <!-- Pages -->
-                                {% for pageNum in this.paginationPages %}
-                                    {% if pageNum == page %}
-                                        <li class="page-item active">
-                                            <span class="page-link">{{ pageNum }}</span>
-                                        </li>
-                                    {% else %}
-                                        <li class="page-item">
-                                            <button class="page-link" data-action="live#action" data-live-action-param="goToPage" data-model="targetPage" data-value="{{ pageNum }}">
-                                                {{ pageNum }}
-                                            </button>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-
-                                <!-- Page suivante -->
-                                {% if page < this.totalPages %}
-                                    <li class="page-item">
-                                        <button class="page-link" data-action="live#action" data-live-action-param="nextPage">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </button>
-                                    </li>
-                                {% endif %}
-                            </ul>
-                        </nav>
+                    <nav aria-label="Pagination des recettes" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <!-- Page précédente -->
+                            {% if page > 1 %}
+                            <li class="page-item">
+                                <button class="page-link" data-action="live#action" data-live-action-param="previousPage">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                            </li>
+                            {% endif %}
+                            
+                            <!-- Pages -->
+                            {% for pageNum in this.paginationPages %}
+                            {% if pageNum == page %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ pageNum }}</span>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <button class="page-link" data-action="live#action" data-live-action-param="goToPage" data-model="targetPage" data-value="{{ pageNum }}">
+                                    {{ pageNum }}
+                                </button>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            
+                            <!-- Page suivante -->
+                            {% if page < this.totalPages %}
+                            <li class="page-item">
+                                <button class="page-link" data-action="live#action" data-live-action-param="nextPage">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
                     {% endif %}
-                {% else %}
+                    {% else %}
                     <div class="text-center py-5">
                         <i class="fas fa-search fa-3x text-muted mb-3"></i>
                         <h4 class="text-muted">Aucune recette trouvée</h4>
@@ -194,8 +194,9 @@
                             Réinitialiser les filtres
                         </button>
                     </div>
-                {% endif %}
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
-</div>
+    

@@ -27,6 +27,7 @@
         "symfony/runtime": "7.3.*",
         "symfony/stimulus-bundle": "^2.30",
         "symfony/twig-bundle": "7.3.*",
+        "symfony/ux-autocomplete": "^2.30",
         "symfony/ux-live-component": "^2.30",
         "symfony/yaml": "7.3.*",
         "twig/extra-bundle": "^2.12|^3.21",

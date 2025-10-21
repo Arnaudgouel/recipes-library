@@ -158,6 +158,8 @@ class RecipeListing
     public function getAvailableIngredients(): array
     {
         return $this->ingredientRepository->createQueryBuilder('i')
+            ->innerJoin('App\Entity\RecipeIngredient', 'ri', 'WITH', 'ri.ingredient = i')
+            ->groupBy('i.id')
             ->orderBy('i.name', 'ASC')
             ->getQuery()
             ->getResult();
