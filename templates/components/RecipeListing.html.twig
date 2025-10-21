@@ -30,7 +30,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <label class="form-label small">Minimum</label>
-                                        <input type="range" class="form-range" min="{{ this.servingsOptions|first }}" max="{{ this.servingsOptions|last }}" value="{{ minServings ?: this.servingsOptions|first }}" data-model="minServings">
+                                        <input type="range" class="form-range" min="{{ this.servingsOptions|first }}" max="{{ this.servingsOptions|last }}" value="{{ this.servingsOptions|first }}" data-model="minServings">
                                         <div class="text-center small text-muted">{{ minServings ?: this.servingsOptions|first }}
                                             portions</div>
                                             
@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="col-12">
                                         <label class="form-label small">Maximum</label>
-                                        <input type="range" class="form-range" min="{{ this.servingsOptions|first }}" max="{{ this.servingsOptions|last }}" value="{{ maxServings ?: this.servingsOptions|last }}" data-model="maxServings">
+                                        <input type="range" class="form-range" min="{{ this.servingsOptions|first }}" max="{{ this.servingsOptions|last }}" value="{{ this.servingsOptions|last }}" data-model="maxServings">
                                         <div class="text-center small text-muted">{{ maxServings ?: this.servingsOptions|last }}
                                             portions</div>                                           
                                     </div>

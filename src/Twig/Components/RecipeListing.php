@@ -62,6 +62,9 @@ class RecipeListing
         private EntityManagerInterface $entityManager,
         private LiveResponder $liveResponder
     ) {
+
+        $this->minServings = $this->getServingsOptions()[0];
+        $this->maxServings = $this->getServingsOptions()[count($this->getServingsOptions()) - 1];
     }
 
     public function getRecipes(): array
@@ -174,7 +177,16 @@ class RecipeListing
 
     public function getServingsOptions(): array
     {
-        return [1, 2, 3, 4, 6, 8, 10, 12, 15, 20];
+        $result = $this->recipeRepository->createQueryBuilder('r')
+            ->select('DISTINCT r.servings')
+            ->groupBy('r.servings')
+            ->orderBy('r.servings', 'ASC')
+            ->getQuery()
+            ->getArrayResult();
+        
+        return array_map(function($item) {
+            return $item['servings'];
+        }, $result);
     }
 
     public function getTimeOptions(): array
