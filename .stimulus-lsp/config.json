@@ -1,11 +1,13 @@
 {
   "version": "1.0.4",
   "createdAt": "2025-10-08T13:55:34.252Z",
-  "updatedAt": "2025-10-20T09:20:41.862Z",
+  "updatedAt": "2025-10-21T22:16:24.611Z",
   "options": {
     "ignoredControllerIdentifiers": [
       "csrf-protection",
-      "live"
+      "ingredient-autocomplete",
+      "live",
+      "recipe-listing"
     ],
     "ignoredAttributes": [
       "data-bs-target"

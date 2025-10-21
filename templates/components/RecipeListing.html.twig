@@ -35,81 +35,80 @@
                                             portions</div>
                                             
                                             
-                                        </div>
-                                        <div class="col-12">
-                                            <label class="form-label small">Maximum</label>
-                                            <input type="range" class="form-range" min="{{ this.servingsOptions|first }}" max="{{ this.servingsOptions|last }}" value="{{ maxServings ?: this.servingsOptions|last }}" data-model="maxServings">
-                                            <div class="text-center small text-muted">{{ maxServings ?: this.servingsOptions|last }}
-                                                portions</div>
-                                                
-                                                
-                                            </div>
-                                        </div>
                                     </div>
-                                    
-                                    <!-- Temps de préparation -->
-                                    <div class="mb-3">
-                                        <label for="maxPrepTime" class="form-label">Temps de préparation max</label>
-                                        <select class="form-select" id="maxPrepTime" data-model="maxPrepTime">
-                                            <option value="">Aucune limite</option>
-                                            {% for time, label in this.timeOptions %}
-                                            <option value="{{ time }}" {{ maxPrepTime == time ? 'selected' : '' }}>
-                                                {{ label }}
-                                            </option>
-                                            {% endfor %}
-                                        </select>
+                                    <div class="col-12">
+                                        <label class="form-label small">Maximum</label>
+                                        <input type="range" class="form-range" min="{{ this.servingsOptions|first }}" max="{{ this.servingsOptions|last }}" value="{{ maxServings ?: this.servingsOptions|last }}" data-model="maxServings">
+                                        <div class="text-center small text-muted">{{ maxServings ?: this.servingsOptions|last }}
+                                            portions</div>                                           
                                     </div>
-                                    
-                                    <!-- Temps de cuisson -->
-                                    <div class="mb-3">
-                                        <label for="maxCookTime" class="form-label">Temps de cuisson max</label>
-                                        <select class="form-select" id="maxCookTime" data-model="maxCookTime">
-                                            <option value="">Aucune limite</option>
-                                            {% for time, label in this.timeOptions %}
-                                            <option value="{{ time }}" {{ maxCookTime == time ? 'selected' : '' }}>
-                                                {{ label }}
-                                            </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    
-                                    <!-- Ingrédients -->
-                                    <div class="mb-3">
-                                        <label class="form-label">Ingrédients</label>
-                                        <select
-                                            name="ingredient"
-                                            class="form-select"
-                                            multiple
-                                            data-model="selectedIngredients"
-                                            {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
-                                                url: path('ux_entity_autocomplete', { alias: 'ingredient' }),
-                                                'search-on-focus': true,
-                                                'min-characters': 0,
-                                                'max-results': 20,
-                                                'multiple': true
-                                            }) }}
-                                        >
-                                            {% for ingredient in this.availableIngredients %}
-                                            <option value="{{ ingredient.id }}" {{ ingredient.id in selectedIngredients ? 'selected' : '' }}>
-                                                {{ ingredient.name }}
-                                            </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                
-                                <!-- Boutons -->
-                                <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-secondary">
-                                        <i class="fas fa-filter"></i> Appliquer les filtres
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary" data-action="live#action" data-live-action-param="resetFilters">
-                                        <i class="fas fa-undo"></i> Réinitialiser
-                                    </button>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                                    
+                            <!-- Temps de préparation -->
+                            <div class="mb-3">
+                                <label for="maxPrepTime" class="form-label">Temps de préparation max</label>
+                                <select class="form-select" id="maxPrepTime" data-model="maxPrepTime">
+                                    <option value="">Aucune limite</option>
+                                    {% for time, label in this.timeOptions %}
+                                    <option value="{{ time }}" {{ maxPrepTime == time ? 'selected' : '' }}>
+                                        {{ label }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <!-- Temps de cuisson -->
+                            <div class="mb-3">
+                                <label for="maxCookTime" class="form-label">Temps de cuisson max</label>
+                                <select class="form-select" id="maxCookTime" data-model="maxCookTime">
+                                    <option value="">Aucune limite</option>
+                                    {% for time, label in this.timeOptions %}
+                                    <option value="{{ time }}" {{ maxCookTime == time ? 'selected' : '' }}>
+                                        {{ label }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                                    
+                            <!-- Ingrédients -->
+                            <div class="mb-3">
+                                <label class="form-label">Ingrédients</label>
+                                <div class="input-group" {{ stimulus_controller('recipe_listing') }}>
+                                    <select
+                                        name="ingredient"
+                                        class="form-select"
+                                        multiple
+                                        data-model="selectedIngredients"
+                                        data-ingredient-autocomplete-target="select"
+                                        data-recipe-listing-target="ingredientsSelect"
+                                        {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
+                                            url: path('ux_entity_autocomplete', { alias: 'ingredient' }),
+                                            'search-on-focus': true,
+                                            'min-characters': 0,
+                                            'max-results': 20,
+                                            'multiple': true,
+                                        }) }}
+                                    >
+                                    {% for ingredient in this.availableIngredients %}
+                                    <option value="{{ ingredient.id }}" {{ ingredient.id in selectedIngredients ? 'selected' : '' }}>
+                                        {{ ingredient.name }}
+                                    </option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                                
+                            <!-- Boutons -->
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-outline-secondary" data-action="live#action" data-live-action-param="resetFilters">
+                                    <i class="fas fa-undo"></i> Réinitialiser
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
+            </div>
                 
                 <!-- Contenu principal -->
                 <div class="col-lg-9 col-md-8">

@@ -10,12 +10,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\UX\LiveComponent\LiveResponder;
 
 #[AsLiveComponent()]
 class RecipeListing
 {
     use DefaultActionTrait;
+    use ComponentToolsTrait;
 
     #[LiveProp(writable: true)]
     public ?string $search = null;
@@ -48,12 +51,16 @@ class RecipeListing
     public string $sortOrder = 'ASC';
 
     #[LiveProp(writable: true)]
-    public ?int $targetPage = null;  
+    public ?int $targetPage = null;
+
+    #[LiveProp(writable: true)]
+    public int $renderKey = 0;  
 
     public function __construct(
         private RecipeRepository $recipeRepository,
         private IngredientRepository $ingredientRepository,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private LiveResponder $liveResponder
     ) {
     }
 
@@ -255,6 +262,7 @@ class RecipeListing
     #[LiveAction]
     public function resetFilters(): void
     {
+        $this->dispatchBrowserEvent('filters:reset');
         $this->search = null;
         $this->minServings = null;
         $this->maxServings = null;
