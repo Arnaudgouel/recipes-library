@@ -178,28 +178,28 @@ h6 {
 /* Styles pour la pagination */
 
 .pagination {
-    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-secondary-rgb), 0.25);
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-dark-rgb), 0.25);
 }
 
 .pagination .page-link {
-    color: var(--bs-secondary);
-    border-color: var(--bs-secondary);
+    color: var(--bs-dark);
+    border-color: var(--bs-dark);
 }
 
 .pagination .page-item.active .page-link {
     color: white;
-    background-color: var(--bs-secondary);
-    border-color: var(--bs-secondary);
+    background-color: var(--bs-dark);
+    border-color: var(--bs-dark);
 }
 
 .pagination .page-link:hover {
     color: white;
-    background-color: var(--bs-secondary);
-    border-color: var(--bs-secondary);
+    background-color: var(--bs-dark);
+    border-color: var(--bs-dark);
 }
 
 .pagination .page-item.active .page-link:hover {
-    background-color: color-mix(in srgb, var(--bs-secondary) 85%, black);
+    background-color: color-mix(in srgb, var(--bs-dark) 85%, black);
 }
 
 
