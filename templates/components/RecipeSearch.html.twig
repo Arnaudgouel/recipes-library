@@ -18,7 +18,7 @@
       <div class="list-group">
         {% for recipe in this.result %}
           <a href="{{ path('app_recipe_show', { id: recipe.id }) }}" class="list-group-item list-group-item-action bg-dark text-light border-secondary">
-            <h6 class="mb-1">{{ recipe.title }}</h6>
+            <h6 class="mb-1 text-light">{{ recipe.title }}</h6>
             {% if recipe.description %}
             <p class="mb-1 text-muted">{{ recipe.description|slice(0, 100) }}{% if recipe.description|length > 100 %}...{% endif %}</p>
             {% endif %}
@@ -34,7 +34,7 @@
     </div>
   {% elseif query %}
     <div class="mt-3 position-absolute search-error">
-      <div class="alert alert-warning">Aucun résultat trouvé pour "{{ query }}"</div>
+      <div class="alert alert-warning mb-0">Aucun résultat trouvé pour "{{ query }}"</div>
     </div>
   {% endif %}
 </div>
