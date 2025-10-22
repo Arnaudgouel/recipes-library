@@ -176,12 +176,18 @@ h6 {
 }
 
 /* Styles pour la pagination */
+
+.pagination {
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-secondary-rgb), 0.25);
+}
+
 .pagination .page-link {
     color: var(--bs-secondary);
     border-color: var(--bs-secondary);
 }
 
 .pagination .page-item.active .page-link {
+    color: white;
     background-color: var(--bs-secondary);
     border-color: var(--bs-secondary);
 }
@@ -191,6 +197,11 @@ h6 {
     background-color: var(--bs-secondary);
     border-color: var(--bs-secondary);
 }
+
+.pagination .page-item.active .page-link:hover {
+    background-color: color-mix(in srgb, var(--bs-secondary) 85%, black);
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

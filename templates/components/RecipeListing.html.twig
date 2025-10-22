@@ -153,7 +153,7 @@
                             {% if page > 1 %}
                             <li class="page-item">
                                 <button class="page-link" data-action="live#action" data-live-action-param="previousPage">
-                                    <i class="fas fa-chevron-left"></i>
+                                    {{ ux_icon('bi:arrow-left', {style: 'width: 1rem; height: 1rem;'}) }}
                                 </button>
                             </li>
                             {% endif %}
@@ -177,7 +177,7 @@
                             {% if page < this.totalPages %}
                             <li class="page-item">
                                 <button class="page-link" data-action="live#action" data-live-action-param="nextPage">
-                                    <i class="fas fa-chevron-right"></i>
+                                    {{ ux_icon('bi:arrow-right', {style: 'width: 1rem; height: 1rem;'}) }}
                                 </button>
                             </li>
                             {% endif %}

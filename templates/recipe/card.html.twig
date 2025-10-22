@@ -14,21 +14,25 @@
             <div class="recipe-meta mt-auto">
                 <div class="row text-center">
                     {% if recipe.servings %}
-                        <div class="col-4">
+                        <div class="col-4 d-flex flex-column align-items-center justify-content-center">
+                            {{ ux_icon('bi:people-fill', {style: 'width: 1rem; height: 1rem;'}) }}
                             <small class="text-muted">
-                                {{ recipe.servings }} portion(s)
+                                {{ recipe.servings }}
                             </small>
                         </div>
                     {% endif %}
                     {% if recipe.prepMinutes %}
-                        <div class="col-4">
+                        <div class="col-4 d-flex flex-column align-items-center justify-content-center">
+                            {{ ux_icon('bi:clock-fill', {style: 'width: 1rem; height: 1rem;'}) }}
                             <small class="text-muted">
                                 {{ this.formatTime(recipe.prepMinutes) }}
                             </small>
                         </div>
                     {% endif %}
                     {% if recipe.cookMinutes %}
-                        <div class="col-4">
+                        <div class="col-4 d-flex flex-column align-items-center justify-content-center">
+                            {{ ux_icon('hugeicons:oven', {style: 'width: 1rem; height: 1rem;'}) }}
+                        
                             <small class="text-muted">
                                 {{ this.formatTime(recipe.cookMinutes) }}
                             </small>

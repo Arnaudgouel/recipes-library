@@ -76,8 +76,8 @@ class RecipeListing
 
         // Filtre par recherche textuelle
         if (!empty($this->search)) {
-            $qb->andWhere('r.title LIKE :search OR r.description LIKE :search OR i.name LIKE :search')
-               ->setParameter('search', '%' . $this->search . '%');
+            $qb->andWhere('LOWER(r.title) LIKE :search OR LOWER(r.description) LIKE :search OR LOWER(i.name) LIKE :search')
+               ->setParameter('search', '%' . strtolower($this->search) . '%');
         }
 
         // Filtre par nombre de portions
@@ -128,8 +128,8 @@ class RecipeListing
 
         // Appliquer les mêmes filtres que pour getRecipes()
         if (!empty($this->search)) {
-            $qb->andWhere('r.title LIKE :search OR r.description LIKE :search OR i.name LIKE :search')
-               ->setParameter('search', '%' . $this->search . '%');
+            $qb->andWhere('LOWER(r.title) LIKE :search OR LOWER(r.description) LIKE :search OR LOWER(i.name) LIKE :search')
+               ->setParameter('search', '%' . strtolower($this->search) . '%');
         }
 
         if ($this->minServings !== null) {
