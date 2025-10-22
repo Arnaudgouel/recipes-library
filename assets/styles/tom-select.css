@@ -1,0 +1,16 @@
+.ts-control input {
+    color: black;
+
+    &::placeholder {
+        color: black;
+    }
+}
+
+.focus div.ts-control {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-secondary-rgb), 0.25);
+}
+
+.ts-wrapper.multi.form-select-dark .ts-control > div {
+    background-color: var(--bs-dark);
+    color: white;
+}

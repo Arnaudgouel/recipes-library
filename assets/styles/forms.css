@@ -1,0 +1,123 @@
+/* Begin Input Range */
+
+input[type="range"],
+.form-range {
+    appearance: none;
+    background: transparent;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background: var(--bs-secondary);
+    height: var(--track-height);
+    border-radius: 3px;
+}
+
+
+/* Firefox */
+input[type="range"]::-moz-range-track {
+    background: var(--bs-secondary);
+    height: var(--track-height);
+    border-radius: 3px;
+}
+
+/* Input Thumb */
+
+/* Chrome, Safari, Edge (Chromium) */
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  background: var(--bs-dark);
+  border-radius: 50%;
+  width: var(--thumb-width);
+  height: var(--thumb-height);
+  margin-top: calc((var(--track-height) / 2) - (var(--thumb-height) / 2));
+  border: 3px solid var(--bs-dark);
+}
+
+/* Firefox */
+input[type="range"]::-moz-range-thumb {
+  appearance: none;
+  background: var(--bs-dark);
+  border-radius: 0;
+  border-radius: 50%;
+  border: 3px solid var(--bs-dark);
+}
+
+/* On retire le focus par défaut sur l'input */
+input[type="range"]:focus {
+  outline: none;
+}
+
+/* Chrome, Safari, Edge (Chromium) */
+input[type="range"]:focus::-webkit-slider-thumb  {
+  outline: 2px solid var(--bs-dark);
+  outline-offset: 2px;
+}
+
+/* Firefox */
+input[type="range"]:focus::-moz-range-thumb {
+  outline: 2px solid var(--bs-dark);
+  outline-offset: 2px;
+}
+
+/* End Input Range */
+
+/* Begin Form Check / Select */
+
+.form-check-input,
+.form-control,
+.form-select-dark {
+    &:checked {
+        background-color: var(--bs-secondary);
+        border-color: var(--bs-secondary);
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-secondary-rgb), 0.25);
+        border-color: var(--bs-secondary);
+    }
+}
+
+/* End Form Check / Select */
+
+/* Begin Ingredients Filter */
+.ingredients-filter {
+    border: 1px solid var(--bs-light);
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    background-color: white;
+}
+
+.ingredients-filter .form-check {
+    margin-bottom: 0.5rem;
+}
+
+.ingredients-filter .form-check:last-child {
+    margin-bottom: 0;
+}
+
+/* End Ingredients Filter */
+
+/* Begin Sort By Select */
+
+.sort-by-select {
+    .form-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+        background-color: var(--bs-dark);
+        color: white;
+
+        &:checked {
+            background-color: color-mix(in srgb, var(--bs-dark) 80%, white);
+            border-color: color-mix(in srgb, var(--bs-dark) 80%, white);
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 0.25rem rgba(var(--bs-dark-rgb), 0.25);
+            border-color: color-mix(in srgb, var(--bs-dark) 70%, white);
+        }
+    }
+}
+
+/* End Sort By Select */

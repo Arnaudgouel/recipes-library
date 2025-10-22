@@ -54,7 +54,7 @@
                             <!-- Temps de préparation -->
                             <div class="mb-3">
                                 <label for="maxPrepTime" class="form-label">Temps de préparation max</label>
-                                <select class="form-select" id="maxPrepTime" data-model="maxPrepTime">
+                                <select class="form-select form-select-dark" id="maxPrepTime" data-model="maxPrepTime">
                                     <option value="">Aucune limite</option>
                                     {% for time, label in this.timeOptions %}
                                     <option value="{{ time }}" {{ maxPrepTime == time ? 'selected' : '' }}>
@@ -67,7 +67,7 @@
                             <!-- Temps de cuisson -->
                             <div class="mb-3">
                                 <label for="maxCookTime" class="form-label">Temps de cuisson max</label>
-                                <select class="form-select" id="maxCookTime" data-model="maxCookTime">
+                                <select class="form-select form-select-dark" id="maxCookTime" data-model="maxCookTime">
                                     <option value="">Aucune limite</option>
                                     {% for time, label in this.timeOptions %}
                                     <option value="{{ time }}" {{ maxCookTime == time ? 'selected' : '' }}>
@@ -83,17 +83,17 @@
                                 <div class="input-group" {{ stimulus_controller('recipe_listing') }}>
                                     <select
                                         name="ingredient"
-                                        class="form-select"
+                                        class="form-select form-select-dark"
                                         multiple
                                         data-model="selectedIngredients"
                                         data-ingredient-autocomplete-target="select"
                                         data-recipe-listing-target="ingredientsSelect"
-                                        placeholder="Sélectionnez les ingrédients"
+                                        placeholder="Sélectionnez"
                                         {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
                                             url: path('ux_entity_autocomplete', { alias: 'ingredient' }),
                                             'search-on-focus': true,
                                             'min-characters': 0,
-                                            'max-results': 20,
+                                            'max-results': 30,
                                             'multiple': true,
                                         }) }}
                                     >
