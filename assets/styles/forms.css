@@ -86,6 +86,7 @@ input[type="range"]:focus::-moz-range-thumb {
         color: var(--bs-dark);
         width: 100%;
     }
+}
 
 /* End Form Check / Select */
 
