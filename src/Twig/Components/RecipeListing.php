@@ -276,8 +276,8 @@ class RecipeListing
     {
         $this->dispatchBrowserEvent('filters:reset');
         $this->search = null;
-        $this->minServings = null;
-        $this->maxServings = null;
+        $this->minServings = $this->getServingsOptions()[0];
+        $this->maxServings = $this->getServingsOptions()[count($this->getServingsOptions()) - 1];
         $this->maxPrepTime = null;
         $this->maxCookTime = null;
         $this->selectedIngredients = [];
