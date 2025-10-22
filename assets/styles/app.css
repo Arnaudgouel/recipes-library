@@ -3,7 +3,7 @@
 [data-bs-theme="light"] {
     --bs-primary-text-emphasis: #362121;
     --bs-secondary: #D2691E;
-        --bs-secondary-rgb: 210, 105, 30;
+    --bs-secondary-rgb: 210, 105, 30;
     --bs-dark: #4b2e2d;
     --bs-dark-rgb: 75, 46, 45;
     --bs-emphasis-color: #fff;
@@ -16,6 +16,7 @@
     --track-height: 6px;
     --thumb-height: 18px;
     --thumb-width: 18px;
+    --bs-form-select-indicator-color: white;
 }
 
 input[type="range"],
@@ -310,4 +311,22 @@ h6 {
     object-fit: cover;
     object-position: top;
     filter: brightness(0.65);
+}
+
+.sort-by-select {
+    .form-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+        background-color: var(--bs-dark);
+        color: white;
+
+        &:checked {
+            background-color: color-mix(in srgb, var(--bs-dark) 80%, white);
+            border-color: color-mix(in srgb, var(--bs-dark) 80%, white);
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 0.25rem rgba(var(--bs-dark-rgb), 0.25);
+            border-color: color-mix(in srgb, var(--bs-dark) 70%, white);
+        }
+    }
 }

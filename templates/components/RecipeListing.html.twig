@@ -120,9 +120,9 @@
                         </div>
                         <div class="d-flex align-items-center gap-3">
                             <!-- Tri -->
-                            <div class="d-flex align-items-center gap-2">
+                            <div class="d-flex align-items-center gap-2 sort-by-select">
                                 <label for="sortBy" class="form-label mb-0">Trier par:</label>
-                                <select class="form-select" id="sortBy" data-model="sortBy" style="width: auto;">
+                                <select class="form-select" id="sortBy" data-model="sortBy" style="width: auto;" data-bs-theme="light">
                                     {% for value, label in this.sortOptions %}
                                     <option value="{{ value }}" {{ sortBy == value ? 'selected' : '' }}>
                                         {{ label }}
