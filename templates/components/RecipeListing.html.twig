@@ -1,5 +1,5 @@
 <div {{ attributes }}>
-    <div class="container-fluid">
+    <div class="container-fluid" {{ stimulus_controller('recipe_listing') }}>
         <div class="row">
             <!-- Sidebar avec filtres -->
             <div class="col-lg-3 col-md-4 mb-4">
@@ -80,7 +80,7 @@
                             <!-- Ingrédients -->
                             <div class="mb-3">
                                 <label class="form-label">Ingrédients</label>
-                                <div class="input-group" {{ stimulus_controller('recipe_listing') }}>
+                                <div class="input-group">
                                     <select
                                         name="ingredient"
                                         class="form-select form-select-dark"
@@ -166,7 +166,7 @@
                             </li>
                             {% else %}
                             <li class="page-item">
-                                <button class="page-link" data-action="live#action" data-live-action-param="goToPage" data-model="targetPage" data-value="{{ pageNum }}">
+                                <button class="page-link" data-action="live#action" data-live-action-param="goToPage" data-live-page-param="{{ pageNum }}" data-model="targetPage" data-value="{{ pageNum }}">
                                     {{ pageNum }}
                                 </button>
                             </li>

@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\LiveComponent\LiveResponder;
@@ -289,6 +290,7 @@ class RecipeListing
     {
         if ($this->page > 1) {
             $this->page--;
+            $this->dispatchBrowserEvent('page:changed');
         }
     }
 
@@ -297,18 +299,17 @@ class RecipeListing
     {
         if ($this->page < $this->getTotalPages()) {
             $this->page++;
+            $this->dispatchBrowserEvent('page:changed');
         }
     }
 
     #[LiveAction]
-    public function goToPage(): void
+    public function goToPage(#[LiveArg] int $page): void
     {
-        if ($this->targetPage !== null) {
-            $totalPages = $this->getTotalPages();
-            if ($this->targetPage >= 1 && $this->targetPage <= $totalPages) {
-                $this->page = $this->targetPage;
-            }
-            $this->targetPage = null; // Reset after use
+        $totalPages = $this->getTotalPages();
+        if ($page >= 1 && $page <= $totalPages) {
+            $this->page = $page;
+            $this->dispatchBrowserEvent('page:changed');
         }
     }
 }

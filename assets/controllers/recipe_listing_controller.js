@@ -9,6 +9,10 @@ export default class extends Controller {
                 select.tomselect.clear()
             });
         });
+
+        window.addEventListener('page:changed', (event) => {
+            this.element.scrollIntoView({ behavior: 'smooth' });
+        })
     };
     
 }
