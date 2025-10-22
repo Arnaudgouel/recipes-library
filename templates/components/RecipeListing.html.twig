@@ -7,6 +7,12 @@
                     <div class="card-header bg-dark text-white">
                         <h5 class="mb-0 text-white">Filtres</h5>
                     </div>
+                    <!-- Boutons -->
+                    <div class="d-grid gap-2 mt-3">
+                        <button type="button" class="btn btn-outline-secondary" data-action="live#action" data-live-action-param="resetFilters">
+                            <i class="fas fa-undo"></i> Réinitialiser
+                        </button>
+                    </div>
                     <div class="card-body">
                         <form data-action="live#action" data-live-action-param="filter">
                             <!-- Recherche textuelle -->
@@ -82,6 +88,7 @@
                                         data-model="selectedIngredients"
                                         data-ingredient-autocomplete-target="select"
                                         data-recipe-listing-target="ingredientsSelect"
+                                        placeholder="Sélectionnez les ingrédients"
                                         {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
                                             url: path('ux_entity_autocomplete', { alias: 'ingredient' }),
                                             'search-on-focus': true,
@@ -97,13 +104,6 @@
                                     {% endfor %}
                                     </select>
                                 </div>
-                            </div>
-                                
-                            <!-- Boutons -->
-                            <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-outline-secondary" data-action="live#action" data-live-action-param="resetFilters">
-                                    <i class="fas fa-undo"></i> Réinitialiser
-                                </button>
                             </div>
                         </form>
                     </div>
