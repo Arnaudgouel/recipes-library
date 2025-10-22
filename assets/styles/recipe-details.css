@@ -1,0 +1,13 @@
+.card-ingredient {
+    &.checked {
+        .card {
+          background-color: var(--bs-gray-300);
+          color: var(--bs-dark);
+          width: 100%;
+        }
+    }
+
+    .card {
+        background-color: white;
+    }
+}

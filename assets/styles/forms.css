@@ -80,6 +80,13 @@ input[type="range"]:focus::-moz-range-thumb {
     }
 }
 
+.form-check-input:checked {
+    + label {
+        background-color: var(--bs-gray-300);
+        color: var(--bs-dark);
+        width: 100%;
+    }
+
 /* End Form Check / Select */
 
 /* Begin Ingredients Filter */

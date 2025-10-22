@@ -46,12 +46,12 @@
       <div class="row g-3">
         {% for ingredient in recipe.recipeIngredients %}
           <div class="col-6 col-lg-4 col-xl-3">
-            <label for="ingredient-{{ ingredient.id }}" class="d-block">
-              <div class="card bg-white border-0" >
+            <label for="ingredient-{{ ingredient.id }}" class="d-block card-ingredient" {{ stimulus_controller('recipe_ingredient', { id: ingredient.id }) }}>
+              <div class="card border-0" >
                 <div class="card-body d-flex flex-column justify-content-between gy-3">
                   <h4 class="card-title mb-3">{{ ingredient.ingredient.name }}</h4>
                   <p class="card-text mb-0">{{ ingredient.formattedQuantity }} {{ ingredient.unit.label }}</p>
-                  <input id="ingredient-{{ ingredient.id }}" type="checkbox" class="form-check-input ingredient-checkbox">
+                  <input id="ingredient-{{ ingredient.id }}" type="checkbox" class="form-check-input ingredient-checkbox" {{ stimulus_action('recipe_ingredient', 'handleToggle', 'click') }}>
                 </div>
               </div>
             </label>
@@ -71,7 +71,7 @@
         <div class="col-12">
           <div class="form-check d-flex align-items-center">
             <input class="form-check-input" type="checkbox" value="" id="step-{{ step.id }}">
-            <label class="form-check-label d-block ms-4" for="step-{{ step.id }}">
+            <label class="form-check-label d-block ms-4 p-1 rounded" for="step-{{ step.id }}">
               <div class="d-flex flex-column">
                 <h4 class="fw-bold">Étape {{ step.position }}</h4>
                 <span>{{ step.instruction }}</span>
