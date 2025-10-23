@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\CategoryRecipe;
 use App\Entity\Ingredient;
 use App\Entity\Recipe;
 use App\Entity\RecipeStep;
@@ -52,6 +53,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToUrl('Accueil', 'fa fa-home', '/'),
             MenuItem::section('Recettes'),
             MenuItem::linkToCrud('Recettes', 'fas fa-list', Recipe::class),
+            MenuItem::linkToCrud('Catégories', 'fas fa-tags', CategoryRecipe::class),
             MenuItem::linkToCrud('Ingrédients', 'fas fa-list', Ingredient::class),
             MenuItem::linkToCrud('Unités', 'fas fa-list', Unit::class)
         ];

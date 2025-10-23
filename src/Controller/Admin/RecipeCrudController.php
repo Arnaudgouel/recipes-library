@@ -18,7 +18,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,13 +70,14 @@ class RecipeCrudController extends AbstractCrudController
     {
 
         yield TextField::new('title', 'Titre')->setColumns(12);
-        yield TextEditorField::new('description', 'Description')->setColumns(12);
+        yield TextareaField::new('description', 'Description')->setColumns(12)->hideOnIndex();
+        yield AssociationField::new('category', 'Catégorie')->setColumns(12);
         yield ImageField::new('image', 'Image')
             ->setUploadedFileNamePattern('[year][month][day]-[slug]_[uuid].[extension]')
             ->setUploadDir('public/uploads/recipes-images')
             ->setBasePath('uploads/recipes-images');
         yield FormField::addRow();
-        yield IntegerField::new('servings', 'Nombre de personnes')->setColumns(2);
+        yield IntegerField::new('servings', 'Nombre de personnes')->setColumns(2)->hideOnIndex();
         yield IntegerField::new('prepMinutes', 'Temps de préparation (minutes)')->setColumns(5)->hideOnIndex();
         yield IntegerField::new('cookMinutes', 'Temps de cuisson (minutes)')->setColumns(5)->hideOnIndex();
         yield CollectionField::new('recipeIngredients', 'Ingrédients')
