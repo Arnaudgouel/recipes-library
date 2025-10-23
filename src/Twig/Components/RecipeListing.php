@@ -106,8 +106,10 @@ class RecipeListing
 
         // Filtre par ingrédients sélectionnés
         if (!empty($this->selectedIngredients)) {
-            $qb->andWhere('i.id IN (:ingredients)')
-               ->setParameter('ingredients', $this->selectedIngredients);
+            foreach ($this->selectedIngredients as $ingredient) {
+                $qb->andWhere('i.id = :ingredient')
+                   ->setParameter('ingredient', $ingredient);
+            }
         }
 
         // Tri
@@ -154,8 +156,10 @@ class RecipeListing
         }
 
         if (!empty($this->selectedIngredients)) {
-            $qb->andWhere('i.id IN (:ingredients)')
-               ->setParameter('ingredients', $this->selectedIngredients);
+            foreach ($this->selectedIngredients as $ingredient) {
+                $qb->andWhere('i.id = :ingredient')
+                   ->setParameter('ingredient', $ingredient);
+            }
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();
