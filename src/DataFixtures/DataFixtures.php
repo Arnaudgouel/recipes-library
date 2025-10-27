@@ -8,15 +8,25 @@ use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
 use App\Entity\RecipeStep;
 use App\Entity\Unit;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class DataFixtures extends Fixture
 {
+    public function __construct(
+        private readonly UserPasswordHasherInterface $passwordHasher
+    ) {
+    }
 
     public function load(ObjectManager $manager): void
     {
         echo "DataFixtures starting...\n";
+        
+        // Créer l'admin
+        $this->createAdmin($manager);
+        echo "Admin created\n";
         
         // Créer des unités
         $units = $this->createUnits($manager);
@@ -34,19 +44,35 @@ class DataFixtures extends Fixture
         echo "DataFixtures completed successfully!\n";
     }
 
+    private function createAdmin(ObjectManager $manager): void
+    {
+        $admin = new User();
+        $admin->setEmail('gouel.arnaud@gmail.com');
+        $admin->setRoles(['ROLE_ADMIN']);
+        
+        // Hasher le mot de passe
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $admin,
+            'admin'
+        );
+        $admin->setPassword($hashedPassword);
+        
+        $manager->persist($admin);
+    }
+
     private function createUnits(ObjectManager $manager): array
     {
         $unitsData = [
-            ['code' => 'g', 'label' => 'Gramme', 'kind' => 'poids'],
-            ['code' => 'kg', 'label' => 'Kilogramme', 'kind' => 'poids'],
-            ['code' => 'ml', 'label' => 'Millilitre', 'kind' => 'volume'],
-            ['code' => 'cl', 'label' => 'Centilitre', 'kind' => 'volume'],
-            ['code' => 'l', 'label' => 'Litre', 'kind' => 'volume'],
-            ['code' => 'cs', 'label' => 'Cuillère à soupe', 'kind' => 'volume'],
-            ['code' => 'cc', 'label' => 'Cuillère à café', 'kind' => 'volume'],
-            ['code' => 'pcs', 'label' => 'Pièce', 'kind' => 'nombre'],
-            ['code' => 'pincée', 'label' => 'Pincée', 'kind' => 'nombre'],
-            ['code' => 'pot-de-yaourt', 'label' => 'Pot de yaourt', 'kind' => 'volume'],
+            ['code' => 'g', 'label' => 'Gramme', 'pluralLabel' => 'Grammes', 'kind' => 'poids'],
+            ['code' => 'kg', 'label' => 'Kilogramme', 'pluralLabel' => 'Kilogrammes', 'kind' => 'poids'],
+            ['code' => 'ml', 'label' => 'Millilitre', 'pluralLabel' => 'Millilitres', 'kind' => 'volume'],
+            ['code' => 'cl', 'label' => 'Centilitre', 'pluralLabel' => 'Centilitres', 'kind' => 'volume'],
+            ['code' => 'l', 'label' => 'Litre', 'pluralLabel' => 'Litres', 'kind' => 'volume'],
+            ['code' => 'cs', 'label' => 'Cuillère à soupe', 'pluralLabel' => 'Cuillères à soupe', 'kind' => 'volume'],
+            ['code' => 'cc', 'label' => 'Cuillère à café', 'pluralLabel' => 'Cuillères à café', 'kind' => 'volume'],
+            ['code' => 'pcs', 'label' => 'Pièce', 'pluralLabel' => 'Pièces', 'kind' => 'nombre'],
+            ['code' => 'pincée', 'label' => 'Pincée', 'pluralLabel' => 'Pincées', 'kind' => 'nombre'],
+            ['code' => 'pot-de-yaourt', 'label' => 'Pot de yaourt', 'pluralLabel' => 'Pots de yaourt', 'kind' => 'volume'],
         ];
 
         $units = [];
@@ -54,6 +80,7 @@ class DataFixtures extends Fixture
             $unit = new Unit();
             $unit->setCode($unitData['code'])
                  ->setLabel($unitData['label'])
+                 ->setPluralLabel($unitData['pluralLabel'])
                  ->setKind($unitData['kind']);
             
             $manager->persist($unit);

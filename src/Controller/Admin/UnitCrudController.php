@@ -21,6 +21,7 @@ class UnitCrudController extends AbstractCrudController
         return [
             IdField::new('code', 'Code'),
             TextField::new('label', 'Intitulé'),
+            TextField::new('pluralLabel', 'Intitulé au pluriel'),
             TextField::new('kind', 'Type'),
         ];
     }

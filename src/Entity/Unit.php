@@ -18,6 +18,9 @@ class Unit
     #[ORM\Column(length: 255)]
     private ?string $kind = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pluralLabel = null;
+
     public function __toString(): string
     {
         return $this->label;
@@ -55,6 +58,18 @@ class Unit
     public function setKind(string $kind): static
     {
         $this->kind = $kind;
+
+        return $this;
+    }
+
+    public function getPluralLabel(): ?string
+    {
+        return $this->pluralLabel;
+    }
+
+    public function setPluralLabel(?string $pluralLabel): static
+    {
+        $this->pluralLabel = $pluralLabel;
 
         return $this;
     }
