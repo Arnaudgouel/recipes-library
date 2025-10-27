@@ -115,7 +115,7 @@ class RecipeCrudController extends AbstractCrudController
         $showAction = Action::new('show', 'Voir')
             ->setIcon('fa fa-eye')
             ->linkToUrl(fn(Recipe $recipe) => $this->generateUrl('app_recipe_show', ['id' => $recipe->getId()]))
-            ->setCssClass('btn btn-primary');
+            ->setCssClass('btn-primary bg-primary text-white');
 
         return $actions
             ->add(Crud::PAGE_INDEX, $importAction)
