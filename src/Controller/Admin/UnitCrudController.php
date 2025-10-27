@@ -15,7 +15,7 @@ class UnitCrudController extends AbstractCrudController
         return Unit::class;
     }
 
-    /*
+    
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -24,5 +24,5 @@ class UnitCrudController extends AbstractCrudController
             TextEditorField::new('description'),
         ];
     }
-    */
+    
 }

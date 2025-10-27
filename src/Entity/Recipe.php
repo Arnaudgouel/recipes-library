@@ -54,13 +54,17 @@ class Recipe
     #[ORM\OneToMany(targetEntity: RecipeStep::class, mappedBy: 'recipe', orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $recipeSteps;
 
-    #[ORM\ManyToOne(inversedBy: 'recipes')]
-    private ?CategoryRecipe $category = null;
+    /**
+     * @var Collection<int, CategoryRecipe>
+     */
+    #[ORM\ManyToMany(targetEntity: CategoryRecipe::class, inversedBy: 'recipes')]
+    private Collection $category;
 
     public function __construct()
     {
         $this->recipeIngredients = new ArrayCollection();
         $this->recipeSteps = new ArrayCollection();
+        $this->category = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -216,14 +220,26 @@ class Recipe
         return $this;
     }
 
-    public function getCategory(): ?CategoryRecipe
+    /**
+     * @return Collection<int, CategoryRecipe>
+     */
+    public function getCategory(): Collection
     {
         return $this->category;
     }
 
-    public function setCategory(?CategoryRecipe $category): static
+    public function addCategory(CategoryRecipe $category): static
     {
-        $this->category = $category;
+        if (!$this->category->contains($category)) {
+            $this->category->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(CategoryRecipe $category): static
+    {
+        $this->category->removeElement($category);
 
         return $this;
     }

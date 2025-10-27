@@ -6,6 +6,8 @@ use App\Entity\Recipe;
 use App\Form\RecipeIngredientType;
 use App\Service\RecipeImportService;
 use App\Controller\Admin\RecipeStepCrudController;
+use App\Entity\CategoryRecipe;
+use App\Repository\CategoryRecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
@@ -19,6 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +30,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RecipeCrudController extends AbstractCrudController
 {
+    private CategoryRecipeRepository $categoryRecipeRepository;
+
+    public function __construct(CategoryRecipeRepository $categoryRecipeRepository)
+    {
+        $this->categoryRecipeRepository = $categoryRecipeRepository;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Recipe::class;
@@ -68,10 +78,9 @@ class RecipeCrudController extends AbstractCrudController
     */
     public function configureFields(string $pageName): iterable
     {
-
         yield TextField::new('title', 'Titre')->setColumns(12);
         yield TextareaField::new('description', 'Description')->setColumns(12)->hideOnIndex();
-        yield AssociationField::new('category', 'Catégorie')->setColumns(12);
+        yield AssociationField::new('category', 'Catégorie')->setColumns(12)->autocomplete();
         yield ImageField::new('image', 'Image')
             ->setUploadedFileNamePattern('[year][month][day]-[slug]_[uuid].[extension]')
             ->setUploadDir('public/uploads/recipes-images')

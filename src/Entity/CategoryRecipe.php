@@ -21,13 +21,14 @@ class CategoryRecipe
     /**
      * @var Collection<int, Recipe>
      */
-    #[ORM\OneToMany(targetEntity: Recipe::class, mappedBy: 'category')]
+    #[ORM\ManyToMany(targetEntity: Recipe::class, mappedBy: 'category')]
     private Collection $recipes;
 
     public function __construct()
     {
         $this->recipes = new ArrayCollection();
     }
+
 
     public function __toString(): string
     {
@@ -63,7 +64,7 @@ class CategoryRecipe
     {
         if (!$this->recipes->contains($recipe)) {
             $this->recipes->add($recipe);
-            $recipe->setCategory($this);
+            $recipe->addCategory($this);
         }
 
         return $this;
@@ -72,12 +73,10 @@ class CategoryRecipe
     public function removeRecipe(Recipe $recipe): static
     {
         if ($this->recipes->removeElement($recipe)) {
-            // set the owning side to null (unless already changed)
-            if ($recipe->getCategory() === $this) {
-                $recipe->setCategory(null);
-            }
+            $recipe->removeCategory($this);
         }
 
         return $this;
     }
+
 }

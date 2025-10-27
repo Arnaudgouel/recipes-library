@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\CategoryRecipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -40,4 +41,14 @@ class CategoryRecipeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findAllForAutocomplete(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.name', 'c.id')
+            ->indexBy('c', 'c.id')
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+            
+    }
 }
