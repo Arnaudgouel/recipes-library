@@ -23,7 +23,7 @@
             </ol>
         </nav>
 
-        {% if errors %}
+        {% if errors is defined and errors is not empty %}
             <div class="alert alert-danger">
                 <h5><i class="fa fa-exclamation-triangle"></i> Erreurs lors de l'import</h5>
                 <p>Veuillez corriger les erreurs suivantes :</p>
