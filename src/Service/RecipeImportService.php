@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\CategoryRecipe;
 use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
 use App\Entity\RecipeStep;
@@ -84,7 +85,7 @@ class RecipeImportService
             return null;
         }
 
-        $expectedColumns = ['title', 'description', 'servings', 'prepMinutes', 'cookMinutes', 'image', 'ingredients', 'steps'];
+        $expectedColumns = ['title', 'description', 'servings', 'prepMinutes', 'cookMinutes', 'categories', 'ingredients', 'steps'];
         if ($header !== $expectedColumns) {
             $this->errors[] = 'Format CSV invalide. Colonnes attendues: ' . implode(', ', $expectedColumns);
             fclose($handle);
@@ -156,7 +157,11 @@ class RecipeImportService
         $recipe->setServings(!empty($row['servings']) ? (int)$row['servings'] : null);
         $recipe->setPrepMinutes(!empty($row['prepMinutes']) ? (int)$row['prepMinutes'] : null);
         $recipe->setCookMinutes(!empty($row['cookMinutes']) ? (int)$row['cookMinutes'] : null);
-        $recipe->setImage(!empty($row['image']) ? trim($row['image']) : null);
+
+        // Importer les catégories
+        if (!empty($row['categories'])) {
+            $this->importCategories($recipe, $row['categories']);
+        }
 
         $this->entityManager->persist($recipe);
 
@@ -171,6 +176,26 @@ class RecipeImportService
         }
 
         $this->entityManager->flush();
+    }
+
+    private function importCategories(Recipe $recipe, string $categoriesString): void
+    {
+        $categories = explode(',', $categoriesString);
+        foreach ($categories as $categoryName) {
+            $category = $this->findOrCreateCategory($categoryName);
+            $recipe->addCategory($category);
+        }
+    }
+
+    private function findOrCreateCategory(string $name): CategoryRecipe
+    {
+        $category = $this->entityManager->getRepository(CategoryRecipe::class)->findOneBy(['name' => $name]);
+        if (!$category) {
+            $category = new CategoryRecipe();
+            $category->setName($name);
+            $this->entityManager->persist($category);
+        }
+        return $category;
     }
 
     private function importIngredients(Recipe $recipe, string $ingredientsString): void

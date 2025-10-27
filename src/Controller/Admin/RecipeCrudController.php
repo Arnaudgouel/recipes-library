@@ -144,8 +144,9 @@ class RecipeCrudController extends AbstractCrudController
 
                 return $this->redirectToRoute('admin_recipe_index');
             } else {
-                $errorMessage = 'Erreur lors de l\'import :<br>' . implode('<br>', $result['errors']);
-                $this->addFlash('error', $errorMessage);
+                return $this->render('admin/recipe/import.html.twig', [
+                    'errors' => $result['errors']
+                ]);
             }
         }
 

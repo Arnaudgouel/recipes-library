@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\CategoryRecipe;
 use App\Entity\Ingredient;
 use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
@@ -36,15 +37,16 @@ class DataFixtures extends Fixture
     private function createUnits(ObjectManager $manager): array
     {
         $unitsData = [
-            ['code' => 'g', 'label' => 'Gramme', 'kind' => 'weight'],
-            ['code' => 'kg', 'label' => 'Kilogramme', 'kind' => 'weight'],
+            ['code' => 'g', 'label' => 'Gramme', 'kind' => 'poids'],
+            ['code' => 'kg', 'label' => 'Kilogramme', 'kind' => 'poids'],
             ['code' => 'ml', 'label' => 'Millilitre', 'kind' => 'volume'],
             ['code' => 'cl', 'label' => 'Centilitre', 'kind' => 'volume'],
             ['code' => 'l', 'label' => 'Litre', 'kind' => 'volume'],
             ['code' => 'cs', 'label' => 'Cuillère à soupe', 'kind' => 'volume'],
             ['code' => 'cc', 'label' => 'Cuillère à café', 'kind' => 'volume'],
-            ['code' => 'pcs', 'label' => 'Pièce', 'kind' => 'count'],
-            ['code' => 'pincée', 'label' => 'Pincée', 'kind' => 'quantity'],
+            ['code' => 'pcs', 'label' => 'Pièce', 'kind' => 'nombre'],
+            ['code' => 'pincée', 'label' => 'Pincée', 'kind' => 'nombre'],
+            ['code' => 'pot-de-yaourt', 'label' => 'Pot de yaourt', 'kind' => 'volume'],
         ];
 
         $units = [];
@@ -64,10 +66,10 @@ class DataFixtures extends Fixture
     private function createIngredients(ObjectManager $manager): array
     {
         $ingredientsData = [
-            'Farine', 'Sucre', 'Œufs', 'Beurre', 'Lait', 'Sel', 'Poivre',
+            'Farine', 'Sucre', 'Oeuf', 'Beurre', 'Lait', 'Sel', 'Poivre',
             'Tomates', 'Oignons', 'Ail', 'Basilic', 'Origan', 'Thym',
             'Pommes de terre', 'Carottes', 'Courgettes', 'Aubergines',
-            'Poulet', 'Bœuf', 'Porc', 'Saumon', 'Crevettes',
+            'Poulet', 'Boeuf', 'Porc', 'Saumon', 'Crevettes',
             'Fromage râpé', 'Crème fraîche', 'Huile d\'olive',
             'Vinaigre balsamique', 'Moutarde', 'Miel', 'Citron'
         ];
@@ -93,9 +95,10 @@ class DataFixtures extends Fixture
                 'servings' => 4,
                 'prepMinutes' => 15,
                 'cookMinutes' => 20,
+                'category' => ['Italien', 'Plat'],
                 'ingredients' => [
                     ['name' => 'Spaghetti', 'quantity' => 400, 'unit' => 'g'],
-                    ['name' => 'Œufs', 'quantity' => 4, 'unit' => 'pcs'],
+                    ['name' => 'Oeufs', 'quantity' => 4, 'unit' => 'pcs'],
                     ['name' => 'Fromage râpé', 'quantity' => 100, 'unit' => 'g'],
                     ['name' => 'Lardons', 'quantity' => 200, 'unit' => 'g'],
                     ['name' => 'Poivre', 'quantity' => 1, 'unit' => 'pincée'],
@@ -103,9 +106,9 @@ class DataFixtures extends Fixture
                 'steps' => [
                     ['position' => 1, 'instruction' => 'Faire cuire les spaghetti dans l\'eau bouillante salée selon les instructions du paquet.', 'durationMin' => 10],
                     ['position' => 2, 'instruction' => 'Pendant ce temps, faire revenir les lardons dans une poêle.', 'durationMin' => 5],
-                    ['position' => 3, 'instruction' => 'Battre les œufs avec le fromage râpé et le poivre.', 'durationMin' => 2],
+                    ['position' => 3, 'instruction' => 'Battre les oeufs avec le fromage râpé et le poivre.', 'durationMin' => 2],
                     ['position' => 4, 'instruction' => 'Égoutter les pâtes et les mélanger avec les lardons.', 'durationMin' => 1],
-                    ['position' => 5, 'instruction' => 'Ajouter le mélange œufs-fromage et mélanger rapidement.', 'durationMin' => 2],
+                    ['position' => 5, 'instruction' => 'Ajouter le mélange oeufs-fromage et mélanger rapidement.', 'durationMin' => 2],
                 ]
             ],
             [
@@ -114,6 +117,7 @@ class DataFixtures extends Fixture
                 'servings' => 2,
                 'prepMinutes' => 20,
                 'cookMinutes' => 10,
+                'category' => ['Français', 'Entrée', 'Plat'],
                 'ingredients' => [
                     ['name' => 'Salade romaine', 'quantity' => 1, 'unit' => 'pcs'],
                     ['name' => 'Poulet', 'quantity' => 200, 'unit' => 'g'],
@@ -140,6 +144,20 @@ class DataFixtures extends Fixture
                    ->setCookMinutes($recipeData['cookMinutes']);
 
             $manager->persist($recipe);
+
+            // Ajouter les catégories
+            foreach ($recipeData['category'] as $categoryName) {
+                if (isset($categories[$categoryName])) {
+                    $recipe->addCategory($categories[$categoryName]);
+                } else {
+                $category = new CategoryRecipe();
+                $category->setName($categoryName);
+                $manager->persist($category);
+                $categories[$categoryName] = $category;
+                $recipe->addCategory($category);
+                }
+
+            }
 
             // Ajouter les ingrédients
             foreach ($recipeData['ingredients'] as $index => $ingredientData) {

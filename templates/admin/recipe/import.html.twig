@@ -23,6 +23,18 @@
             </ol>
         </nav>
 
+        {% if errors %}
+            <div class="alert alert-danger">
+                <h5><i class="fa fa-exclamation-triangle"></i> Erreurs lors de l'import</h5>
+                <p>Veuillez corriger les erreurs suivantes :</p>
+                <ul>
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -42,13 +54,13 @@
                                 <li><strong>servings</strong> : Nombre de portions (optionnel)</li>
                                 <li><strong>prepMinutes</strong> : Temps de préparation en minutes (optionnel)</li>
                                 <li><strong>cookMinutes</strong> : Temps de cuisson en minutes (optionnel)</li>
-                                <li><strong>image</strong> : Nom du fichier image (optionnel)</li>
+                                <li><strong>categories</strong> :  Format "Catégorie1,Catégorie2,Catégorie3" (optionnel)</li>
                                 <li><strong>ingredients</strong> : Format "Nom:Quantité:Unité|Nom2:Quantité2:Unité2" (optionnel)</li>
                                 <li><strong>steps</strong> : Format "Étape 1|Étape 2|Étape 3" (optionnel)</li>
                             </ul>
                             <p><strong>Exemple :</strong></p>
                             <code>
-                                "Tarte aux pommes","Une tarte traditionnelle",6,30,45,,"Pâte brisée:1:pièce|Pommes:6:pièce|Sucre:100:g","1. Étaler la pâte|2. Disposer les pommes|3. Cuire au four"
+                                "Tarte aux pommes","Une tarte traditionnelle",6,30,45,"Français, Dessert","Pâte brisée:1:pièce|Pommes:6:pièce|Sucre:100:g","1. Étaler la pâte|2. Disposer les pommes|3. Cuire au four"
                             </code>
                         </div>
 
