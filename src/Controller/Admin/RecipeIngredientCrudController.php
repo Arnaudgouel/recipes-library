@@ -40,7 +40,8 @@ class RecipeIngredientCrudController extends AbstractCrudController
         yield IntegerField::new('position')
             ->setLabel('Ordre d\'affichage')
             ->setHelp('1 = premier ingrédient, 2 = deuxième ingrédient, etc.')
-            ->setColumns(12);
+            ->setColumns(12)
+            ->setFormTypeOption('attr', ['required' => false]);
         yield FormField::addRow();
         yield NumberField::new('quantity')
             ->setLabel('Quantité')

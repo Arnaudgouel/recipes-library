@@ -84,7 +84,8 @@ class RecipeCrudController extends AbstractCrudController
         yield ImageField::new('image', 'Image')
             ->setUploadedFileNamePattern('[year][month][day]-[slug]_[uuid].[extension]')
             ->setUploadDir('public/uploads/recipes-images')
-            ->setBasePath('uploads/recipes-images');
+            ->setBasePath('uploads/recipes-images')
+            ->hideOnIndex();
         yield FormField::addRow();
         yield IntegerField::new('servings', 'Nombre de personnes')->setColumns(2)->hideOnIndex();
         yield IntegerField::new('prepMinutes', 'Temps de préparation (minutes)')->setColumns(5)->hideOnIndex();
