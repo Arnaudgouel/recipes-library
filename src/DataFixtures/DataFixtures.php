@@ -73,6 +73,7 @@ class DataFixtures extends Fixture
             ['code' => 'pcs', 'label' => 'Pièce', 'pluralLabel' => 'Pièces', 'kind' => 'nombre'],
             ['code' => 'pincée', 'label' => 'Pincée', 'pluralLabel' => 'Pincées', 'kind' => 'nombre'],
             ['code' => 'pot-de-yaourt', 'label' => 'Pot de yaourt', 'pluralLabel' => 'Pots de yaourt', 'kind' => 'volume'],
+            ['code' => 'tranche', 'label' => 'Tranche', 'pluralLabel' => 'Tranches', 'kind' => 'nombre'],
         ];
 
         $units = [];
