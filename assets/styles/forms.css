@@ -129,3 +129,48 @@ input[type="range"]:focus::-moz-range-thumb {
 }
 
 /* End Sort By Select */
+
+/* Begin Required Fields Star */
+/* Ajoute une étoile rouge après les labels des champs requis */
+
+/* Approche moderne avec :has() - supportée par les navigateurs modernes */
+label:has(+ input[required])::after,
+label:has(+ select[required])::after,
+label:has(+ textarea[required])::after,
+label:has(~ input[required])::after,
+label:has(~ select[required])::after,
+label:has(~ textarea[required])::after,
+.ea-form-group:has(input[required]) label::after,
+.ea-form-group:has(select[required]) label::after,
+.ea-form-group:has(textarea[required]) label::after,
+.form-group:has(input[required]) label::after,
+.form-group:has(select[required]) label::after,
+.form-group:has(textarea[required]) label::after {
+    content: '*';
+    color: #dc3545;
+    margin-left: 0.25rem;
+    font-weight: bold;
+}
+
+/* Fallback pour EasyAdmin et autres frameworks */
+/* Cible les conteneurs avec une classe required */
+.field-required label::after,
+.form-group.required label::after,
+.ea-form-group.required label::after,
+.ea-form-group.field-required label::after {
+    content: '*';
+    color: #dc3545;
+    margin-left: 0.25rem;
+    font-weight: bold;
+}
+
+/* Cible les labels avec un attribut data-required ou aria-required */
+label[data-required="true"]::after,
+label[aria-required="true"]::after {
+    content: '*';
+    color: #dc3545;
+    margin-left: 0.25rem;
+    font-weight: bold;
+}
+
+/* End Required Fields Star */
