@@ -81,6 +81,11 @@ class RecipeCrudController extends AbstractCrudController
         yield TextField::new('title', 'Titre')->setColumns(12);
         yield TextareaField::new('description', 'Description')->setColumns(12)->hideOnIndex();
         yield AssociationField::new('category', 'Catégorie')->setColumns(12)->autocomplete();
+        yield ChoiceField::new('seasons', 'Saisons')
+            ->setChoices(Recipe::getAvailableSeasons())
+            ->allowMultipleChoices()
+            ->setColumns(12)
+            ->hideOnIndex();
         yield ImageField::new('image', 'Image')
             ->setUploadedFileNamePattern('[year][month][day]-[slug]_[uuid].[extension]')
             ->setUploadDir('public/uploads/recipes-images')

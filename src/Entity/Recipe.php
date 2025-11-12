@@ -43,6 +43,12 @@ class Recipe
     private ?string $image = null;
 
     /**
+     * @var array<string>
+     */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $seasons = null;
+
+    /**
      * @var Collection<int, RecipeIngredient>
      */
     #[ORM\OneToMany(targetEntity: RecipeIngredient::class, mappedBy: 'recipe', orphanRemoval: true, cascade: ['persist', 'remove'])]
@@ -65,6 +71,21 @@ class Recipe
         $this->recipeIngredients = new ArrayCollection();
         $this->recipeSteps = new ArrayCollection();
         $this->category = new ArrayCollection();
+        $this->seasons = [];
+    }
+
+    /**
+     * Retourne les saisons disponibles
+     * @return array<string, string>
+     */
+    public static function getAvailableSeasons(): array
+    {
+        return [
+            'printemps' => 'Printemps',
+            'ete' => 'Été',
+            'automne' => 'Automne',
+            'hiver' => 'Hiver',
+        ];
     }
 
     public function getId(): ?int
@@ -240,6 +261,24 @@ class Recipe
     public function removeCategory(CategoryRecipe $category): static
     {
         $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return array<string>|null
+     */
+    public function getSeasons(): ?array
+    {
+        return $this->seasons;
+    }
+
+    /**
+     * @param array<string>|null $seasons
+     */
+    public function setSeasons(?array $seasons): static
+    {
+        $this->seasons = $seasons;
 
         return $this;
     }
