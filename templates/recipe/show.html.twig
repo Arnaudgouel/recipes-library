@@ -16,8 +16,11 @@
         <img src="{{ asset('images/recipe-image-superposition.svg') }}" alt="Superposition" class="img-fluid recipe-image-superposition">
       </div>
       <div class="row mt-4">
-        <div class="col-12">
+        <div class="col-12 d-flex justify-content-between align-items-center">
           <h1 class="mb-0">{{ recipe.title }}</h1>
+          <a href="{{ path('app_recipe_pdf', {id: recipe.id}) }}" class="btn btn-secondary" target="_blank">
+            📄 Télécharger en PDF
+          </a>
         </div>
       </div>
       <div class="row mt-2 pb-3">
