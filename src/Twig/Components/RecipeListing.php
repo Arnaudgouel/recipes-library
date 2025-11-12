@@ -64,8 +64,8 @@ class RecipeListing
         private LiveResponder $liveResponder
     ) {
 
-        $this->minServings = $this->getServingsOptions()[0];
-        $this->maxServings = $this->getServingsOptions()[count($this->getServingsOptions()) - 1];
+        $this->minServings = isset($this->getServingsOptions()[0]) ? $this->getServingsOptions()[0] : null;
+        $this->maxServings = isset($this->getServingsOptions()[count($this->getServingsOptions()) - 1]) ? $this->getServingsOptions()[count($this->getServingsOptions()) - 1] : null;
     }
 
     public function getRecipes(): array
