@@ -80,3 +80,6 @@ volumes: ## List all volumes
 
 rm: ## Remove all containers, images and volumes
 	@$(DOCKER_COMP) down --remove-orphans --volumes --rmi all
+
+migrate: ## Run migrations
+	@$(PHP_CONT) bin/console doctrine:migrations:migrate --no-interaction
