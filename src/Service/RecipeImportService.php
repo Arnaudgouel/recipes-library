@@ -146,6 +146,13 @@ class RecipeImportService
                 $this->errors[] = 'Erreur lors de l\'import: ' . $e->getMessage();
             }
         }
+        try {
+            if (empty($this->errors)) {
+                $this->entityManager->flush();
+            } 
+        } catch (\Exception $e) {
+            $this->errors[] = 'Erreur lors de la sauvegarde: ' . $e->getMessage();
+        }
     }
 
     private function importRecipe(array $row): void
@@ -174,8 +181,6 @@ class RecipeImportService
         if (!empty($row['steps'])) {
             $this->importSteps($recipe, $row['steps']);
         }
-
-        $this->entityManager->flush();
     }
 
     private function importCategories(Recipe $recipe, string $categoriesString): void
@@ -218,6 +223,11 @@ class RecipeImportService
 
             // Récupérer l'unité
             $unit = $this->entityManager->getRepository(Unit::class)->find($unitCode);
+
+            if (!$unit) {
+                throw new \Exception("Unité $unitCode non trouvée pour l'ingrédient $ingredientName de la recette " . $recipe->getTitle());
+                continue;
+            }
 
             // Créer l'ingrédient de recette
             $recipeIngredient = new RecipeIngredient();
