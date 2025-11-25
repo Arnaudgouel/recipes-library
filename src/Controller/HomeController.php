@@ -13,10 +13,10 @@ class HomeController extends AbstractController
     public function index(RecipeRepository $recipeRepository): Response
     {
         // 4 recettes mises en avant au hasard
-        $featuredRecipes = $recipeRepository->findRandomRecipes(4);
+        $featuredRecipes = $recipeRepository->findRandomRecipes(6);
         
         // 4 recettes de la saison courante (ou sans saison = toutes les saisons)
-        $seasonalRecipes = $recipeRepository->findRecipesByCurrentSeason(4);
+        $seasonalRecipes = $recipeRepository->findRecipesByCurrentSeason(6);
         
         return $this->render('home/index.html.twig', [
             'featuredRecipes' => $featuredRecipes,
