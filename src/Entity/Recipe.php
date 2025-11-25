@@ -41,13 +41,6 @@ class Recipe
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $image = null;
-
-    /**
-     * @var array<string>
-     */
-    #[ORM\Column(type: Types::JSON, nullable: true)]
-    private ?array $seasons = null;
-
     /**
      * @var Collection<int, RecipeIngredient>
      */
@@ -66,12 +59,20 @@ class Recipe
     #[ORM\ManyToMany(targetEntity: CategoryRecipe::class, inversedBy: 'recipes')]
     private Collection $category;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $normalizedTitle = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $normalizedDescription = null;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private ?array $season = null;
+
     public function __construct()
     {
         $this->recipeIngredients = new ArrayCollection();
         $this->recipeSteps = new ArrayCollection();
         $this->category = new ArrayCollection();
-        $this->seasons = [];
     }
 
     /**
@@ -81,10 +82,10 @@ class Recipe
     public static function getAvailableSeasons(): array
     {
         return [
-            'printemps' => 'Printemps',
-            'ete' => 'Été',
-            'automne' => 'Automne',
-            'hiver' => 'Hiver',
+            'Printemps' => 'printemps',
+            'Été' => 'ete',
+            'Automne' => 'automne',
+            'Hiver' => 'hiver',
         ];
     }
 
@@ -265,20 +266,38 @@ class Recipe
         return $this;
     }
 
-    /**
-     * @return array<string>|null
-     */
-    public function getSeasons(): ?array
+    public function getNormalizedTitle(): ?string
     {
-        return $this->seasons;
+        return $this->normalizedTitle;
     }
 
-    /**
-     * @param array<string>|null $seasons
-     */
-    public function setSeasons(?array $seasons): static
+    public function setNormalizedTitle(?string $normalizedTitle): static
     {
-        $this->seasons = $seasons;
+        $this->normalizedTitle = $normalizedTitle;
+
+        return $this;
+    }
+
+    public function getNormalizedDescription(): ?string
+    {
+        return $this->normalizedDescription;
+    }
+
+    public function setNormalizedDescription(?string $normalizedDescription): static
+    {
+        $this->normalizedDescription = $normalizedDescription;
+
+        return $this;
+    }
+
+    public function getSeason(): ?array
+    {
+        return $this->season;
+    }
+
+    public function setSeason(?array $season): static
+    {
+        $this->season = $season;
 
         return $this;
     }

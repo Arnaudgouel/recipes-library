@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20251112215119 extends AbstractMigration
+final class Version20251125141840 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20251112215119 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE recipe ADD seasons JSON DEFAULT NULL');
+        $this->addSql('ALTER TABLE recipe ADD normalized_title VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE recipe DROP seasons');
+        $this->addSql('ALTER TABLE recipe DROP normalized_title');
     }
 }

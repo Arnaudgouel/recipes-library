@@ -96,7 +96,7 @@ title,description,servings,prepMinutes,cookMinutes,image,ingredients,steps
 ```
 nom:quantité:unité
 ```
-Exemple : `"Pâtes:400:g|Œufs:4:pièce|Lardons:200:g"`
+Exemple : `"Pâtes:400:g|Oeufs:4:pièce|Lardons:200:g"`
 
 ### Format des étapes :
 ```

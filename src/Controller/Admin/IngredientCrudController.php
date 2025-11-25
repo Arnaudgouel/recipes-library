@@ -15,14 +15,12 @@ class IngredientCrudController extends AbstractCrudController
         return Ingredient::class;
     }
 
-    /*
+    
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        yield IdField::new('id')->hideOnForm();
+        yield TextField::new('name');
+        yield TextField::new('normalizedName')->hideOnForm();
     }
-    */
+    
 }

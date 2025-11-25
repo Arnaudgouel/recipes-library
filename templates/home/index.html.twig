@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Recettes
+{% endblock %}
+
+{% block body %}
+<div class="home-page">
+    <!-- En-tête de la page d'accueil -->
+    <div class="container-fluid px-0">
+        <img src="{{ asset('images/recipe-listing-header.webp') }}" alt="Recettes" class="img-fluid recipe-listing-header">
+        
+        <div class="recipe-header text-center p-5">
+            <h1 class="mb-3">Bienvenue sur notre site de recettes</h1>
+            <p class="lead">
+                Découvrez une sélection de recettes gourmandes adaptées à vos envies et à la saison !
+            </p>
+        </div>
+    </div>
+
+    <div class="container-fluid py-4">
+        <!-- Recettes mises en avant -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="mb-4">Recettes mises en avant</h2>
+                {% if featuredRecipes|length > 0 %}
+                    <div class="row">
+                        {% for recipe in featuredRecipes %}
+                            {{ include('recipe/card-home.html.twig', { recipe: recipe }) }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">Aucune recette mise en avant pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Recettes de la saison -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">Recettes de saison</h2>
+                {% if seasonalRecipes|length > 0 %}
+                    <div class="row">
+                        {% for recipe in seasonalRecipes %}
+                            {{ include('recipe/card-home.html.twig', { recipe: recipe }) }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">Aucune recette de saison pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

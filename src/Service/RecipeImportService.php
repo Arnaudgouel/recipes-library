@@ -16,6 +16,7 @@ class RecipeImportService
     private EntityManagerInterface $entityManager;
     private array $errors = [];
     private int $importedCount = 0;
+    private array $ingredients = [];
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -138,6 +139,7 @@ class RecipeImportService
 
     private function importRecipes(array $data): void
     {
+        $this->entityManager->beginTransaction();
         foreach ($data as $row) {
             try {
                 $this->importRecipe($row);
@@ -148,10 +150,13 @@ class RecipeImportService
         }
         try {
             if (empty($this->errors)) {
-                $this->entityManager->flush();
-            } 
+                $this->entityManager->commit();
+            } else {
+                $this->entityManager->rollback();
+            }
         } catch (\Exception $e) {
             $this->errors[] = 'Erreur lors de la sauvegarde: ' . $e->getMessage();
+            $this->entityManager->rollback();
         }
     }
 
@@ -159,11 +164,15 @@ class RecipeImportService
     {
         // Créer la recette
         $recipe = new Recipe();
-        $recipe->setTitle(trim($row['title']));
-        $recipe->setDescription(!empty($row['description']) ? trim($row['description']) : null);
+        $title = trim($row['title']);
+        $description = !empty($row['description']) ? trim($row['description']) : null;
+        $recipe->setTitle($title);
+        $recipe->setDescription($description);
         $recipe->setServings(!empty($row['servings']) ? (int)$row['servings'] : null);
         $recipe->setPrepMinutes(!empty($row['prepMinutes']) ? (int)$row['prepMinutes'] : null);
         $recipe->setCookMinutes(!empty($row['cookMinutes']) ? (int)$row['cookMinutes'] : null);
+        $recipe->setNormalizedTitle(\App\Service\NormalizationService::normalizeAccents($title));
+        $recipe->setNormalizedDescription(\App\Service\NormalizationService::normalizeAccents($description));
 
         // Importer les catégories
         if (!empty($row['categories'])) {
@@ -181,6 +190,8 @@ class RecipeImportService
         if (!empty($row['steps'])) {
             $this->importSteps($recipe, $row['steps']);
         }
+
+        $this->entityManager->flush();
     }
 
     private function importCategories(Recipe $recipe, string $categoriesString): void
@@ -271,6 +282,7 @@ class RecipeImportService
         if (!$ingredient) {
             $ingredient = new Ingredient();
             $ingredient->setName($name);
+            $ingredient->setNormalizedName(NormalizationService::normalizeAccents($name));
             $this->entityManager->persist($ingredient);
         }
 
