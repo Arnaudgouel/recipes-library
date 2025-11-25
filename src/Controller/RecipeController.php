@@ -56,13 +56,13 @@ final class RecipeController extends AbstractController
         // Générer le nom du fichier
         $filename = 'recette-' . preg_replace('/[^a-z0-9]+/', '-', strtolower($recipe->getTitle())) . '.pdf';
 
-        // Retourner la réponse PDF
+        // Retourner la réponse PDF (affichage dans le navigateur)
         return new Response(
             $dompdf->output(),
             Response::HTTP_OK,
             [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+                'Content-Disposition' => 'inline; filename="' . $filename . '"',
             ]
         );
     }
