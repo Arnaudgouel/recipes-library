@@ -24,15 +24,35 @@ Allez dans **Settings > Secrets and variables > Actions** de votre repository Gi
    - Exemple : `49159`
 
 4. **`SSH_PRIVATE_KEY`** : La clé privée SSH pour l'authentification
-   - Générer une clé SSH si nécessaire :
-     ```bash
-     ssh-keygen -t ed25519 -C "github-actions" -f ~/.ssh/github_actions_key
-     ```
-   - Copier le contenu du fichier `~/.ssh/github_actions_key` (sans extension .pub)
-   - Ajouter la clé publique sur le VPS :
-     ```bash
-     cat ~/.ssh/github_actions_key.pub >> ~/.ssh/authorized_keys
-     ```
+   
+   **Où générer la clé ?** Sur votre **machine locale** (pas sur le VPS).
+   
+   **Étapes détaillées :**
+   
+   a) **Sur votre machine locale**, générez une paire de clés SSH :
+   ```bash
+   ssh-keygen -t ed25519 -C "github-actions" -f ~/.ssh/github_actions_key
+   ```
+   (Vous pouvez laisser le passphrase vide en appuyant sur Entrée, ou en mettre une si vous préférez)
+   
+   b) **Copiez la clé PRIVÉE** dans les secrets GitHub :
+   ```bash
+   cat ~/.ssh/github_actions_key
+   ```
+   Copiez tout le contenu (de `-----BEGIN OPENSSH PRIVATE KEY-----` à `-----END OPENSSH PRIVATE KEY-----`) et collez-le dans le secret `SSH_PRIVATE_KEY` sur GitHub.
+   
+   c) **Ajoutez la clé PUBLIQUE sur le VPS** :
+   ```bash
+   # Option 1 : Depuis votre machine locale (recommandé)
+   ssh-copy-id -i ~/.ssh/github_actions_key.pub -p 49159 ubuntu@vps-xxxxxx5e.vps.ovh.net
+   
+   # Option 2 : Copier manuellement
+   cat ~/.ssh/github_actions_key.pub | ssh -p 49159 ubuntu@vps-xxxxxx5e.vps.ovh.net "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+   ```
+   
+   **Important :** 
+   - La clé **privée** (`github_actions_key`) → va dans les secrets GitHub
+   - La clé **publique** (`github_actions_key.pub`) → va sur le VPS dans `~/.ssh/authorized_keys`
 
 ### Note importante
 
@@ -70,9 +90,8 @@ MEILI_MASTER_KEY=votre_master_key_meilisearch
 
 ## Déclenchement du workflow
 
-Le workflow se déclenche automatiquement :
-- Lors d'un push sur les branches `main` ou `master`
-- Manuellement via l'onglet "Actions" de GitHub (bouton "Run workflow")
+Le workflow se déclenche :
+- **Manuellement** via l'onglet "Actions" de GitHub (bouton "Run workflow")
 
 ## Étapes du workflow
 
