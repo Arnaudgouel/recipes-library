@@ -134,7 +134,7 @@ jobs:
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             cd ~/recipes-library-deploy
             docker compose -f compose.yaml -f compose.prod.yaml pull
-            docker compose -f compose.yaml -f compose.prod.yaml up -d
+            docker compose -f compose.yaml -f compose.prod.yaml up --wait
             docker compose -f compose.yaml -f compose.prod.yaml ps
           EOF
 
