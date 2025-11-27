@@ -19,21 +19,21 @@ help: ## Outputs this help screen
 
 ## —— Docker 🐳 ————————————————————————————————————————————————————————————————
 buildc: ## Builds the Docker images
-	@$(DOCKER_COMP) build --pull --no-cache
+	@$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml build --pull --no-cache
 
 build: ## Builds the Docker images
-	@$(DOCKER_COMP) build --pull
+	@$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml build --pull
 
 up: ## Start the docker hub in detached mode (no logs)
-	@$(DOCKER_COMP) up --detach
+	@$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml up --detach
 
 start: build up ## Build and start the containers
 
 down: ## Stop the docker hub
-	@$(DOCKER_COMP) down --remove-orphans
+	@$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml down --remove-orphans
 
 logs: ## Show live logs
-	@$(DOCKER_COMP) logs --tail=0 --follow
+	@$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml logs --tail=0 --follow
 
 sh: ## Connect to the FrankenPHP container
 	@$(PHP_CONT) sh
@@ -43,7 +43,7 @@ bash: ## Connect to the FrankenPHP container via bash so up and down arrows go t
 
 test: ## Start tests with phpunit, pass the parameter "c=" to add options to phpunit, example: make test c="--group e2e --stop-on-failure"
 	@$(eval c ?=)
-	@$(DOCKER_COMP) exec -e APP_ENV=test php bin/phpunit $(c)
+	@$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml exec -e APP_ENV=test php bin/phpunit $(c)
 
 
 ## —— Composer 🧙 ——————————————————————————————————————————————————————————————
@@ -70,16 +70,16 @@ fixtures-append: ## Append fixtures data (without purging)
 	@$(PHP_CONT) bin/console doctrine:fixtures:load --no-interaction --append
 
 ps: ## List all running containers
-	@$(DOCKER_COMP) ps
+	@$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml ps
 
 images: ## List all images
-	@$(DOCKER_COMP) images
+	@$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml images
 
 volumes: ## List all volumes
-	@$(DOCKER_COMP) volumes
+	@$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml volumes
 
 rm: ## Remove all containers, images and volumes
-	@$(DOCKER_COMP) down --remove-orphans --volumes --rmi all
+	@$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml down --remove-orphans --volumes --rmi all
 
 migrate: ## Run migrations
 	@$(PHP_CONT) bin/console doctrine:migrations:migrate --no-interaction
