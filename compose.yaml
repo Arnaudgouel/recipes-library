@@ -35,6 +35,8 @@ services:
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-16}
+    env_file:
+      - .env
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-recipes_dev}
       # You should definitely change the password in production
