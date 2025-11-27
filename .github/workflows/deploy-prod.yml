@@ -78,14 +78,14 @@ jobs:
       - name: Create remote directory
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            "mkdir -p ~/recipes-library"
+            "mkdir -p ~/recipes-library-deploy"
 
       - name: Copy Docker Compose files
         run: |
           scp -P ${{ secrets.SSH_PORT }} \
             compose.yaml \
             compose.prod.yaml \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/recipes-library/
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/recipes-library-deploy/
 
       - name: Create compose.prod.yaml with image reference
         run: |
@@ -106,7 +106,7 @@ jobs:
         run: |
           scp -P ${{ secrets.SSH_PORT }} \
             compose.prod.yaml \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/recipes-library/
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/recipes-library-deploy/
 
       - name: Login to GHCR on VPS
         run: |
@@ -117,7 +117,7 @@ jobs:
       - name: Pull and deploy with Docker Compose
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd ~/recipes-library
+            cd ~/recipes-library-deploy
             docker compose -f compose.yaml -f compose.prod.yaml pull
             docker compose -f compose.yaml -f compose.prod.yaml up -d
             docker compose -f compose.yaml -f compose.prod.yaml ps
