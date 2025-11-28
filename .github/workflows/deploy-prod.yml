@@ -115,6 +115,13 @@ jobs:
                 APP_SECRET: \${APP_SECRET}
                 MERCURE_PUBLISHER_JWT_KEY: \${CADDY_MERCURE_JWT_SECRET}
                 MERCURE_SUBSCRIBER_JWT_KEY: \${CADDY_MERCURE_JWT_SECRET}
+            database:
+              env_file:
+                - .env
+              environment:
+                POSTGRES_DB: \${POSTGRES_DB}
+                POSTGRES_USER: \${POSTGRES_USER}
+                POSTGRES_PASSWORD: \${POSTGRES_PASSWORD}
           EOF
 
       - name: Copy updated compose.prod.yaml
