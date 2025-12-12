@@ -43,12 +43,6 @@ class Recipe
     private ?string $image = null;
 
     /**
-     * @var array<string>
-     */
-    #[ORM\Column(type: Types::JSON, nullable: true)]
-    private ?array $seasons = null;
-
-    /**
      * @var Collection<int, RecipeIngredient>
      */
     #[ORM\OneToMany(targetEntity: RecipeIngredient::class, mappedBy: 'recipe', orphanRemoval: true, cascade: ['persist', 'remove'])]
@@ -66,12 +60,18 @@ class Recipe
     #[ORM\ManyToMany(targetEntity: CategoryRecipe::class, inversedBy: 'recipes')]
     private Collection $category;
 
+    /**
+     * @var Collection<int, Season>
+     */
+    #[ORM\ManyToMany(targetEntity: Season::class, inversedBy: 'recipes')]
+    private Collection $seasons;
+
     public function __construct()
     {
         $this->recipeIngredients = new ArrayCollection();
         $this->recipeSteps = new ArrayCollection();
         $this->category = new ArrayCollection();
-        $this->seasons = [];
+        $this->seasons = new ArrayCollection();
     }
 
     /**
@@ -266,19 +266,25 @@ class Recipe
     }
 
     /**
-     * @return array<string>|null
+     * @return Collection<int, Season>
      */
-    public function getSeasons(): ?array
+    public function getSeasons(): Collection
     {
         return $this->seasons;
     }
 
-    /**
-     * @param array<string>|null $seasons
-     */
-    public function setSeasons(?array $seasons): static
+    public function addSeason(Season $season): static
     {
-        $this->seasons = $seasons;
+        if (!$this->seasons->contains($season)) {
+            $this->seasons->add($season);
+        }
+
+        return $this;
+    }
+
+    public function removeSeason(Season $season): static
+    {
+        $this->seasons->removeElement($season);
 
         return $this;
     }

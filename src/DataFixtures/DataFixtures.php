@@ -7,6 +7,7 @@ use App\Entity\Ingredient;
 use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
 use App\Entity\RecipeStep;
+use App\Entity\Season;
 use App\Entity\Unit;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -36,12 +37,37 @@ class DataFixtures extends Fixture
         $ingredients = $this->createIngredients($manager);
         echo "Ingredients created: " . count($ingredients) . "\n";
 
+        //Create seasons
+        $seasons = $this->createSeasons($manager);
+        echo "Seasons created: " . count($seasons) . "\n";
+
         // Créer des recettes avec leurs ingrédients et étapes
-        $this->createRecipes($manager, $ingredients, $units);
+        $this->createRecipes($manager, $ingredients, $units, $seasons);
         echo "Recipes created\n";
+
+
         
         $manager->flush();
         echo "DataFixtures completed successfully!\n";
+    }
+
+    private function createSeasons(ObjectManager $manager): array
+    {
+        $seasons = [
+            'printemps',
+            'ete',
+            'automne',
+            'hiver'
+        ];
+
+        foreach ($seasons as $season) {
+            $seasonEntity = new Season();
+            $seasonEntity->setName($season);
+            $manager->persist($seasonEntity);
+            $seasons[$season] = $seasonEntity;
+        }
+
+        return $seasons;
     }
 
     private function createAdmin(ObjectManager $manager): void
@@ -114,7 +140,7 @@ class DataFixtures extends Fixture
         return $ingredients;
     }
 
-    private function createRecipes(ObjectManager $manager, array $ingredients, array $units): void
+    private function createRecipes(ObjectManager $manager, array $ingredients, array $units, array $seasons): void
     {
         $recipesData = [
             [
@@ -124,7 +150,8 @@ class DataFixtures extends Fixture
                 'prepMinutes' => 15,
                 'cookMinutes' => 20,
                 'category' => ['Italien', 'Plat'],
-                'ingredients' => [
+                'season' => $seasons['printemps'],
+                    'ingredients' => [
                     ['name' => 'Spaghetti', 'quantity' => 400, 'unit' => 'g'],
                     ['name' => 'Oeufs', 'quantity' => 4, 'unit' => 'pcs'],
                     ['name' => 'Fromage râpé', 'quantity' => 100, 'unit' => 'g'],
@@ -146,6 +173,7 @@ class DataFixtures extends Fixture
                 'prepMinutes' => 20,
                 'cookMinutes' => 10,
                 'category' => ['Français', 'Entrée', 'Plat'],
+                'season' => $seasons['ete'],
                 'ingredients' => [
                     ['name' => 'Salade romaine', 'quantity' => 1, 'unit' => 'pcs'],
                     ['name' => 'Poulet', 'quantity' => 200, 'unit' => 'g'],
@@ -169,7 +197,8 @@ class DataFixtures extends Fixture
                    ->setDescription($recipeData['description'])
                    ->setServings($recipeData['servings'])
                    ->setPrepMinutes($recipeData['prepMinutes'])
-                   ->setCookMinutes($recipeData['cookMinutes']);
+                   ->setCookMinutes($recipeData['cookMinutes'])
+                   ->addSeason($recipeData['season']);
 
             $manager->persist($recipe);
 
