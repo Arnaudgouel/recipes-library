@@ -6,6 +6,7 @@ use App\Entity\Recipe;
 use App\Entity\Ingredient;
 use App\Repository\RecipeRepository;
 use App\Repository\IngredientRepository;
+use App\Service\NormalizationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
@@ -75,10 +76,11 @@ class RecipeListing
             ->leftJoin('ri.ingredient', 'i')
             ->groupBy('r.id');
 
-        // Filtre par recherche textuelle
+        // Filtre par recherche textuelle avec champs normalisés
         if (!empty($this->search)) {
-            $qb->andWhere('LOWER(r.title) LIKE :search OR LOWER(r.description) LIKE :search OR LOWER(i.name) LIKE :search')
-               ->setParameter('search', '%' . strtolower($this->search) . '%');
+            $normalizedSearch = NormalizationService::normalizeAccents($this->search);
+            $qb->andWhere('r.normalizedTitle LIKE :search OR r.normalizedDescription LIKE :search OR i.normalizedName LIKE :search')
+               ->setParameter('search', '%' . $normalizedSearch . '%');
         }
 
         // Filtre par nombre de portions
@@ -131,8 +133,9 @@ class RecipeListing
 
         // Appliquer les mêmes filtres que pour getRecipes()
         if (!empty($this->search)) {
-            $qb->andWhere('LOWER(r.title) LIKE :search OR LOWER(r.description) LIKE :search OR LOWER(i.name) LIKE :search')
-               ->setParameter('search', '%' . strtolower($this->search) . '%');
+            $normalizedSearch = NormalizationService::normalizeAccents($this->search);
+            $qb->andWhere('r.normalizedTitle LIKE :search OR r.normalizedDescription LIKE :search OR i.normalizedName LIKE :search')
+               ->setParameter('search', '%' . $normalizedSearch . '%');
         }
 
         if ($this->minServings !== null) {

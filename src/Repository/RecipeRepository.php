@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Recipe;
+use App\Service\SeasonService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -11,26 +12,27 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RecipeRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly SeasonService $seasonService
+    ) {
         parent::__construct($registry, Recipe::class);
     }
 
-    //    /**
-    //     * @return Recipe[] Returns an array of Recipe objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Récupère des recettes aléatoires
+     * @param int $limit Nombre de recettes à récupérer
+     * @return Recipe[]
+     */
+    public function findRandomRecipes(int $limit = 4): array
+    {
+        // Récupérer tous les IDs
+        $allIds = $this->createQueryBuilder('r')
+            ->select('r.id')
+            ->getQuery()
+            ->getSingleColumnResult();
 
+<<<<<<< HEAD
     //    public function findOneBySomeField($value): ?Recipe
     //    {
     //        return $this->createQueryBuilder('r')
@@ -87,11 +89,26 @@ class RecipeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->where('r.id IN (:ids)')
             ->setParameter('ids', $randomIds)
+=======
+        if (empty($allIds)) {
+            return [];
+        }
+
+        // Faire un random en PHP
+        shuffle($allIds);
+        $selectedIds = array_slice($allIds, 0, $limit);
+
+        // Récupérer les entités correspondantes
+        return $this->createQueryBuilder('r')
+            ->where('r.id IN (:ids)')
+            ->setParameter('ids', $selectedIds)
+>>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
             ->getQuery()
             ->getResult();
     }
 
     /**
+<<<<<<< HEAD
      * Récupère des recettes pour une saison donnée ou sans saison
      * @param string $season Clé de la saison (printemps, ete, automne, hiver)
      * @param int $limit Nombre de recettes à retourner
@@ -105,7 +122,38 @@ class RecipeRepository extends ServiceEntityRepository
             ->setParameter('season', $season)
             ->orderBy('r.id', 'DESC')
             ->setMaxResults($limit)
+=======
+     * Récupère des recettes de la saison courante
+     * Si une recette n'a aucune saison, elle est considérée comme disponible pour toutes les saisons
+     * @param int $limit Nombre de recettes à récupérer
+     * @return Recipe[]
+     */
+    public function findRecipesByCurrentSeason(int $limit = 4): array
+    {
+        $currentSeason = $this->seasonService->getCurrentSeason();
+        
+        $matchingIds = $this->createQueryBuilder('r')
+            ->select('r.id')
+            ->where('r.season IS NULL OR r.season LIKE :season')
+            ->setParameter('season', '%' . $currentSeason . '%')
+            ->getQuery()
+            ->getSingleColumnResult();
+        
+        if (empty($matchingIds)) {
+            return [];
+        }
+        
+        // Faire un shuffle en PHP
+        shuffle($matchingIds);
+        $selectedIds = array_slice($matchingIds, 0, $limit);
+        
+        // Récupérer les entités correspondantes
+        return $this->createQueryBuilder('r')
+            ->where('r.id IN (:ids)')
+            ->setParameter('ids', $selectedIds)
+>>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
             ->getQuery()
             ->getResult();
     }
 }
+

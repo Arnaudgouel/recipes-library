@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+<<<<<<< HEAD
 use App\Entity\Recipe;
+=======
+>>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
 use App\Repository\RecipeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +16,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(RecipeRepository $recipeRepository): Response
     {
+<<<<<<< HEAD
         // Obtenir la saison courante
         $currentSeason = $this->getCurrentSeason();
         
@@ -51,5 +55,18 @@ class HomeController extends AbstractController
             return 'hiver';
         }
     }
+=======
+        // 4 recettes mises en avant au hasard
+        $featuredRecipes = $recipeRepository->findRandomRecipes(6);
+        
+        // 4 recettes de la saison courante (ou sans saison = toutes les saisons)
+        $seasonalRecipes = $recipeRepository->findRecipesByCurrentSeason(6);
+        
+        return $this->render('home/index.html.twig', [
+            'featuredRecipes' => $featuredRecipes,
+            'seasonalRecipes' => $seasonalRecipes,
+        ]);
+    }
+>>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
 }
 

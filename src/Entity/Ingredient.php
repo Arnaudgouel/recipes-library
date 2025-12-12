@@ -17,6 +17,9 @@ class Ingredient
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $normalizedName = null;
+
     public function __toString(): string
     {
         return $this->name;
@@ -35,6 +38,18 @@ class Ingredient
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getNormalizedName(): ?string
+    {
+        return $this->normalizedName;
+    }
+
+    public function setNormalizedName(?string $normalizedName): static
+    {
+        $this->normalizedName = $normalizedName;
 
         return $this;
     }

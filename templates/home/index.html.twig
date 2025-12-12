@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+<<<<<<< HEAD
 {% block title %}Accueil - Recettes de cuisine{% endblock %}
 
 {% block body %}
@@ -46,5 +47,114 @@
       {% endif %}
     </div>
   </section>
+=======
+{% block title %}Accueil - Recettes
+{% endblock %}
+
+{% block body %}
+<div class="home-page">
+    <!-- En-tête de la page d'accueil -->
+    <div class="container-fluid px-0">
+        <img src="{{ asset('images/recipe-listing-header.webp') }}" fetchpriority="high" alt="Recettes" class="img-fluid recipe-listing-header">
+        
+        <div class="recipe-header text-center p-5">
+            <h1 class="mb-3">Bienvenue sur notre site de recettes</h1>
+            <p class="lead">
+                Découvrez une sélection de recettes gourmandes adaptées à vos envies et à la saison !
+            </p>
+        </div>
+    </div>
+
+    <div class="container-fluid py-4">
+        <!-- Recettes mises en avant -->
+        <div class="row mb-5" data-controller="recipe-slider" data-recipe-slider-items-per-view-value="3">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Recettes aléatoires</h2>
+                    {% if featuredRecipes|length > 3 %}
+                        <div class="slider-controls" data-recipe-slider-target="controls">
+                            <button 
+                                type="button" 
+                                class="btn btn-outline-secondary slider-btn me-2" 
+                                data-recipe-slider-target="prevButton"
+                                data-action="click->recipe-slider#prev"
+                                aria-label="Précédent"
+                            >
+                                {{ ux_icon('mingcute:left-fill', {style: 'width: 1rem; height: 1rem;'}) }}
+                            </button>
+                            <button 
+                                type="button" 
+                                class="btn btn-outline-secondary slider-btn" 
+                                data-recipe-slider-target="nextButton"
+                                data-action="click->recipe-slider#next"
+                                aria-label="Suivant"
+                            >
+                                {{ ux_icon('mingcute:right-fill', {style: 'width: 1rem; height: 1rem;'}) }}
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+                {% if featuredRecipes|length > 0 %}
+                    <div class="recipe-slider-container" data-recipe-slider-target="container">
+                        <div class="recipe-slider-track">
+                            {% for recipe in featuredRecipes %}
+                                <div data-recipe-slider-target="item" class="recipe-slider-item">
+                                    {{ include('recipe/card-home.html.twig', { recipe: recipe }) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="text-muted">Aucune recette mise en avant pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Recettes de la saison -->
+        <div class="row" data-controller="recipe-slider" data-recipe-slider-items-per-view-value="3">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Recettes de saison ({{ current_season() }})</h2>
+                    {% if seasonalRecipes|length > 3 %}
+                        <div class="slider-controls" data-recipe-slider-target="controls">
+                            <button 
+                                type="button" 
+                                class="btn btn-outline-secondary slider-btn me-2" 
+                                data-recipe-slider-target="prevButton"
+                                data-action="click->recipe-slider#prev"
+                                aria-label="Précédent"
+                            >
+                                {{ ux_icon('mingcute:left-fill', {style: 'width: 1rem; height: 1rem;'}) }}
+                            </button>
+                            <button 
+                                type="button" 
+                                class="btn btn-outline-secondary slider-btn" 
+                                data-recipe-slider-target="nextButton"
+                                data-action="click->recipe-slider#next"
+                                aria-label="Suivant"
+                            >
+                                {{ ux_icon('mingcute:right-fill', {style: 'width: 1rem; height: 1rem;'}) }}
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+                {% if seasonalRecipes|length > 0 %}
+                    <div class="recipe-slider-container" data-recipe-slider-target="container">
+                        <div class="recipe-slider-track">
+                            {% for recipe in seasonalRecipes %}
+                                <div data-recipe-slider-target="item" class="recipe-slider-item">
+                                    {{ include('recipe/card-home.html.twig', { recipe: recipe }) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="text-muted">Aucune recette de saison pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+>>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
 {% endblock %}
 

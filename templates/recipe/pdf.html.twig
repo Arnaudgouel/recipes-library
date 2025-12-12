@@ -5,7 +5,7 @@
     <title>{{ recipe.title }}</title>
     <style>
         @page {
-            margin: 2cm;
+            margin: 0.5cm 1cm;
         }
         body {
             font-family: Arial, sans-serif;
@@ -16,7 +16,7 @@
         h1 {
             font-size: 24pt;
             color: #362121;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             border-bottom: 2px solid #D2691E;
             padding-bottom: 10px;
         }
@@ -24,61 +24,52 @@
             font-size: 18pt;
             color: #362121;
             margin-top: 20px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             border-bottom: 1px solid #D2691E;
             padding-bottom: 5px;
         }
         h3 {
             font-size: 14pt;
             color: #4b2e2d;
-            margin-top: 15px;
+            margin-top: 5px;
             margin-bottom: 10px;
         }
         .recipe-meta {
-            margin: 15px 0;
-            padding: 10px;
-            background-color: #f5f5dc;
+            margin: 5px 0;
+            padding: 2px;
             border-left: 4px solid #D2691E;
         }
         .recipe-meta p {
-            margin: 5px 0;
+            margin: 5px;
         }
         .ingredients-list {
-            margin: 15px 0;
+            margin: 5px 0;
         }
         .ingredient-item {
-            margin: 8px 0;
-            padding: 5px;
+            display: inline-block;
+            width: 45%;
+            padding: 2px;
         }
         .ingredient-name {
             font-weight: bold;
         }
         .steps-list {
-            margin: 15px 0;
+            margin: 5px 0;
         }
         .step-item {
-            margin: 15px 0;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-left: 3px solid #4b2e2d;
-        }
-        .step-number {
-            font-weight: bold;
-            color: #D2691E;
-            font-size: 14pt;
+            margin: 5px 0;
+            padding: 2px;
+            font-size: 10pt;
+            color: black;
         }
         .description {
-            margin: 15px 0;
+            margin: 5px 0;
             font-style: italic;
-            color: #666;
+            color: black;
         }
-        .footer {
-            margin-top: 30px;
-            padding-top: 10px;
-            border-top: 1px solid #ddd;
-            font-size: 10pt;
-            color: #999;
-            text-align: center;
+        .step-instruction {
+            margin: 0;
+            font-size: 13pt;
         }
     </style>
 </head>
@@ -128,16 +119,11 @@
     <div class="steps-list">
         {% for step in recipe.recipeSteps|sort((a, b) => a.position <=> b.position) %}
         <div class="step-item">
-            <span class="step-number">Étape {{ step.position }} :</span>
-            <p>{{ step.instruction }}</p>
+            <p class="step-instruction">{{ step.instruction }}</p>
         </div>
         {% endfor %}
     </div>
     {% endif %}
-
-    <div class="footer">
-        <p>Généré le {{ 'now'|date('d/m/Y à H:i') }}</p>
-    </div>
 </body>
 </html>
 

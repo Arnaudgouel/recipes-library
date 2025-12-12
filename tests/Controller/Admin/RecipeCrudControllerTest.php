@@ -32,7 +32,7 @@ class RecipeCrudControllerTest extends WebTestCase
     {
         // Créer un fichier CSV temporaire valide
         $csvContent = "title,description,servings,prepMinutes,cookMinutes,image,ingredients,steps\n";
-        $csvContent .= "\"Pasta Carbonara\",\"Délicieuse recette de pâtes\",4,15,20,\"carbonara.jpg\",\"Pâtes:400:g|Œufs:4:pièce\",\"1. Cuire les pâtes|2. Préparer la sauce\"";
+        $csvContent .= "\"Pasta Carbonara\",\"Délicieuse recette de pâtes\",4,15,20,\"carbonara.jpg\",\"Pâtes:400:g|Oeufs:4:pièce\",\"1. Cuire les pâtes|2. Préparer la sauce\"";
         
         $tempFile = tmpfile();
         fwrite($tempFile, $csvContent);

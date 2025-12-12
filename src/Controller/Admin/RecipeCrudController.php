@@ -81,7 +81,7 @@ class RecipeCrudController extends AbstractCrudController
         yield TextField::new('title', 'Titre')->setColumns(12);
         yield TextareaField::new('description', 'Description')->setColumns(12)->hideOnIndex();
         yield AssociationField::new('category', 'Catégorie')->setColumns(12)->autocomplete();
-        yield ChoiceField::new('seasons', 'Saisons')
+        yield ChoiceField::new('season', 'Saisons')
             ->setChoices(Recipe::getAvailableSeasons())
             ->allowMultipleChoices()
             ->setColumns(12)

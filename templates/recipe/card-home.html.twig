@@ -1,0 +1,48 @@
+<div>
+  <a href="{{ path('app_recipe_show', { id: recipe.id }) }}" class="d-block text-decoration-none text-reset h-100">
+    <div class="card recipe-card bg-white">
+        {{ include('recipe/image.html.twig', { recipe: recipe }) }}   
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ recipe.title }}</h5>
+            
+            {% if recipe.description %}
+                <p class="card-text text-muted flex-grow-1">
+                    {{ recipe.description|slice(0, 120) }}{% if recipe.description|length > 120 %}...{% endif %}
+                </p>
+            {% endif %}
+
+            <div class="recipe-meta mt-auto">
+                <div class="row text-center">
+                    {% if recipe.servings %}
+                        <div class="col-4 d-flex flex-column align-items-center justify-content-center">
+                            {{ ux_icon('bi:people-fill', {style: 'width: 1rem; height: 1rem;'}) }}
+                            <small class="text-muted">
+                                {{ recipe.servings }}
+                            </small>
+                        </div>
+                    {% endif %}
+                    {% if recipe.prepMinutes %}
+                        <div class="col-4 d-flex flex-column align-items-center justify-content-center">
+                            {{ ux_icon('bi:clock-fill', {style: 'width: 1rem; height: 1rem;'}) }}
+                            <small class="text-muted">
+                                {{ recipe.prepMinutes|duration }}
+                            </small>
+                        </div>
+                    {% endif %}
+                    {% if recipe.cookMinutes %}
+                        <div class="col-4 d-flex flex-column align-items-center justify-content-center">
+                            {{ ux_icon('hugeicons:oven', {style: 'width: 1rem; height: 1rem;'}) }}
+                        
+                            <small class="text-muted">
+                                {{ recipe.cookMinutes|duration }}
+                            </small>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <span class="btn btn-secondary mt-2">Voir la recette</span>
+        </div>
+    </div>
+  </a>
+</div>
+

@@ -41,7 +41,10 @@ class Recipe
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $image = null;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
     /**
      * @var Collection<int, RecipeIngredient>
      */
@@ -60,18 +63,32 @@ class Recipe
     #[ORM\ManyToMany(targetEntity: CategoryRecipe::class, inversedBy: 'recipes')]
     private Collection $category;
 
+<<<<<<< HEAD
     /**
      * @var Collection<int, Season>
      */
     #[ORM\ManyToMany(targetEntity: Season::class, inversedBy: 'recipes')]
     private Collection $seasons;
+=======
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $normalizedTitle = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $normalizedDescription = null;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private ?array $season = null;
+>>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
 
     public function __construct()
     {
         $this->recipeIngredients = new ArrayCollection();
         $this->recipeSteps = new ArrayCollection();
         $this->category = new ArrayCollection();
+<<<<<<< HEAD
         $this->seasons = new ArrayCollection();
+=======
+>>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
     }
 
     /**
@@ -81,10 +98,10 @@ class Recipe
     public static function getAvailableSeasons(): array
     {
         return [
-            'printemps' => 'Printemps',
-            'ete' => 'Été',
-            'automne' => 'Automne',
-            'hiver' => 'Hiver',
+            'Printemps' => 'printemps',
+            'Été' => 'ete',
+            'Automne' => 'automne',
+            'Hiver' => 'hiver',
         ];
     }
 
@@ -265,26 +282,59 @@ class Recipe
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * @return Collection<int, Season>
      */
     public function getSeasons(): Collection
+=======
+    public function getNormalizedTitle(): ?string
+>>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
     {
-        return $this->seasons;
+        return $this->normalizedTitle;
     }
 
+<<<<<<< HEAD
     public function addSeason(Season $season): static
     {
         if (!$this->seasons->contains($season)) {
             $this->seasons->add($season);
         }
+=======
+    public function setNormalizedTitle(?string $normalizedTitle): static
+    {
+        $this->normalizedTitle = $normalizedTitle;
+>>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
 
         return $this;
     }
 
+<<<<<<< HEAD
     public function removeSeason(Season $season): static
     {
         $this->seasons->removeElement($season);
+=======
+    public function getNormalizedDescription(): ?string
+    {
+        return $this->normalizedDescription;
+    }
+
+    public function setNormalizedDescription(?string $normalizedDescription): static
+    {
+        $this->normalizedDescription = $normalizedDescription;
+
+        return $this;
+    }
+
+    public function getSeason(): ?array
+    {
+        return $this->season;
+    }
+
+    public function setSeason(?array $season): static
+    {
+        $this->season = $season;
+>>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
 
         return $this;
     }
