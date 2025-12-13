@@ -1,0 +1,22 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+{% block header_title %}Utilisateurs{% endblock %}
+
+{% block body %}
+<div class="admin-card">
+    <div class="admin-card-header">
+        <h5 class="admin-card-title">Liste des utilisateurs</h5>
+        <a href="{{ path('admin_user_new') }}" class="btn btn-primary btn-sm">
+            {{ ux_icon('mdi:plus') }} Nouvel utilisateur
+        </a>
+    </div>
+    <div class="admin-card-body">
+        {{ component('DataTable', {
+            entityClass: entityClass,
+            routePrefix: 'admin_user'
+        }) }}
+    </div>
+</div>
+{% endblock %}
+

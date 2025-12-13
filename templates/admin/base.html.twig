@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Administration{% endblock %} - Recipes Library</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sidebar-width: 260px;
+            --header-height: 60px;
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --sidebar-bg: #1e1e2d;
+            --sidebar-text: #a1a1aa;
+            --sidebar-active: #ffffff;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .admin-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--sidebar-bg);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .sidebar-brand {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-brand h4 {
+            color: white;
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        
+        .sidebar-brand small {
+            color: var(--sidebar-text);
+            font-size: 0.75rem;
+        }
+        
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+        
+        .sidebar-nav-title {
+            color: var(--sidebar-text);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.75rem 1.5rem 0.5rem;
+            font-weight: 600;
+        }
+        
+        .sidebar-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+        
+        .sidebar-nav-link:hover {
+            color: var(--sidebar-active);
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .sidebar-nav-link.active {
+            color: var(--sidebar-active);
+            background: rgba(99, 102, 241, 0.2);
+            border-right: 3px solid var(--primary-color);
+        }
+        
+        .sidebar-nav-link svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        /* Header */
+        .admin-header {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            height: var(--header-height);
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+        }
+        
+        .admin-header-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: #1f2937;
+        }
+        
+        .admin-header-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        /* Main Content */
+        .admin-content {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--header-height);
+            padding: 1.5rem;
+            min-height: calc(100vh - var(--header-height));
+        }
+        
+        /* Cards */
+        .admin-card {
+            background: white;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .admin-card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .admin-card-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: #1f2937;
+            margin: 0;
+        }
+        
+        .admin-card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        /* Tables */
+        .table thead th {
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        /* Flash messages */
+        .flash-messages {
+            position: fixed;
+            top: calc(var(--header-height) + 1rem);
+            right: 1.5rem;
+            z-index: 1050;
+            max-width: 400px;
+        }
+    </style>
+    
+    {% block stylesheets %}{% endblock %}
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+    {# Sidebar #}
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <h4>🍳 Recipes</h4>
+            <small>Back Office</small>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="sidebar-nav-title">Navigation</div>
+            <a href="{{ path('app_home') }}" class="sidebar-nav-link">
+                {{ ux_icon('mdi:home') }}
+                <span>Retour au site</span>
+            </a>
+            <a href="{{ path('admin_dashboard') }}" class="sidebar-nav-link {% if app.request.attributes.get('_route') == 'admin_dashboard' %}active{% endif %}">
+                {{ ux_icon('mdi:view-dashboard') }}
+                <span>Tableau de bord</span>
+            </a>
+            
+            <div class="sidebar-nav-title mt-3">Gestion</div>
+            <a href="{{ path('admin_recipe_index') }}" class="sidebar-nav-link {% if 'admin_recipe' in app.request.attributes.get('_route') %}active{% endif %}">
+                {{ ux_icon('mdi:food') }}
+                <span>Recettes</span>
+            </a>
+            <a href="{{ path('admin_ingredient_index') }}" class="sidebar-nav-link {% if 'admin_ingredient' in app.request.attributes.get('_route') %}active{% endif %}">
+                {{ ux_icon('mdi:carrot') }}
+                <span>Ingrédients</span>
+            </a>
+            <a href="{{ path('admin_category_index') }}" class="sidebar-nav-link {% if 'admin_category' in app.request.attributes.get('_route') %}active{% endif %}">
+                {{ ux_icon('mdi:tag') }}
+                <span>Catégories</span>
+            </a>
+            <a href="{{ path('admin_season_index') }}" class="sidebar-nav-link {% if 'admin_season' in app.request.attributes.get('_route') %}active{% endif %}">
+                {{ ux_icon('mdi:weather-sunny') }}
+                <span>Saisons</span>
+            </a>
+            <a href="{{ path('admin_unit_index') }}" class="sidebar-nav-link {% if 'admin_unit' in app.request.attributes.get('_route') %}active{% endif %}">
+                {{ ux_icon('mdi:scale') }}
+                <span>Unités</span>
+            </a>
+            
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <div class="sidebar-nav-title mt-3">Utilisateurs</div>
+            <a href="{{ path('admin_user_index') }}" class="sidebar-nav-link {% if 'admin_user' in app.request.attributes.get('_route') %}active{% endif %}">
+                {{ ux_icon('mdi:account-group') }}
+                <span>Utilisateurs</span>
+            </a>
+            {% endif %}
+        </nav>
+    </aside>
+    
+    {# Header #}
+    <header class="admin-header">
+        <h1 class="admin-header-title">{% block header_title %}Administration{% endblock %}</h1>
+        
+        <div class="admin-header-user">
+            {% if app.user %}
+                <span class="text-muted">{{ app.user.email }}</span>
+                <div class="user-avatar">
+                    {{ app.user.email|slice(0, 1)|upper }}
+                </div>
+                <a href="{{ path('app_logout') }}" class="btn btn-sm btn-outline-danger">
+                    {{ ux_icon('mdi:logout') }} Déconnexion
+                </a>
+            {% endif %}
+        </div>
+    </header>
+    
+    {# Flash Messages #}
+    <div class="flash-messages">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    
+    {# Main Content #}
+    <main class="admin-content">
+        {% block body %}{% endblock %}
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% block body_js %}{% endblock %}
+</body>
+</html>
+

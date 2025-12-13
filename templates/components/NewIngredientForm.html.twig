@@ -1,0 +1,32 @@
+<div {{ attributes }}>
+    <div class="mb-3">
+        <label for="ingredient-name" class="form-label">Nom de l'ingrédient</label>
+        <input
+            type="text"
+            id="ingredient-name"
+            class="form-control {{ _errors.has('name') ? 'is-invalid' }}"
+            data-model="name"
+            placeholder="Ex: Tomate, Basilic, Poulet..."
+        >
+        {% if _errors.has('name') %}
+            <div class="invalid-feedback">
+                {{ _errors.get('name') }}
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Annuler
+        </button>
+        <button
+            type="button"
+            class="btn btn-primary"
+            data-action="live#action:prevent"
+            data-live-action-param="saveIngredient"
+        >
+            {{ ux_icon('mdi:content-save') }} Créer l'ingrédient
+        </button>
+    </div>
+</div>
+

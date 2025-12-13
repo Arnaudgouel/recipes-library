@@ -1,0 +1,51 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Recettes{% endblock %}
+{% block header_title %}Recettes{% endblock %}
+
+{% block body %}
+<div class="admin-card">
+    <div class="admin-card-header">
+        <h5 class="admin-card-title">Liste des recettes</h5>
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#importModal">
+                {{ ux_icon('mdi:file-import') }} Import CSV
+            </button>
+            <a href="{{ path('admin_recipe_new') }}" class="btn btn-primary btn-sm">
+                {{ ux_icon('mdi:plus') }} Nouvelle recette
+            </a>
+        </div>
+    </div>
+    <div class="admin-card-body">
+        {{ component('DataTable', {
+            entityClass: entityClass,
+            routePrefix: 'admin_recipe'
+        }) }}
+    </div>
+</div>
+
+<div class="modal fade" id="importModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ path('admin_recipe_import') }}" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title">Importer des recettes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Format attendu : CSV avec séparateur <code>;</code> et colonnes <code>title</code>, <code>description</code>, <code>servings</code>, etc.</p>
+                    <div class="mb-3">
+                        <label for="csv_file" class="form-label">Fichier CSV</label>
+                        <input type="file" class="form-control" id="csv_file" name="csv_file" accept=".csv" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Importer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,40 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ is_edit ? 'Modifier' : 'Nouvelle' }} unité{% endblock %}
+{% block header_title %}{{ is_edit ? 'Modifier' : 'Nouvelle' }} unité{% endblock %}
+
+{% block body %}
+<div class="admin-card">
+    <div class="admin-card-header">
+        <h5 class="admin-card-title">{{ is_edit ? 'Modifier l\'unité' : 'Nouvelle unité' }}</h5>
+        <a href="{{ path('admin_unit_index') }}" class="btn btn-outline-secondary btn-sm">
+            {{ ux_icon('mdi:arrow-left') }} Retour
+        </a>
+    </div>
+    <div class="admin-card-body">
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form_row(form.code) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(form.label) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(form.pluralLabel) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(form.kind) }}
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    {{ ux_icon('mdi:content-save') }} {{ is_edit ? 'Modifier' : 'Créer' }}
+                </button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ is_edit ? 'Modifier' : 'Nouvelle' }} recette{% endblock %}
+{% block header_title %}{{ is_edit ? 'Modifier' : 'Nouvelle' }} recette{% endblock %}
+
+{% block body %}
+<div class="admin-card">
+    <div class="admin-card-header">
+        <h5 class="admin-card-title">{{ is_edit ? 'Modifier la recette' : 'Nouvelle recette' }}</h5>
+        <a href="{{ path('admin_recipe_index') }}" class="btn btn-outline-secondary btn-sm">
+            {{ ux_icon('mdi:arrow-left') }} Retour
+        </a>
+    </div>
+    <div class="admin-card-body">
+        {{ component('RecipeForm', {
+            recipe: recipe
+        }) }}
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,22 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Saisons{% endblock %}
+{% block header_title %}Saisons{% endblock %}
+
+{% block body %}
+<div class="admin-card">
+    <div class="admin-card-header">
+        <h5 class="admin-card-title">Liste des saisons</h5>
+        <a href="{{ path('admin_season_new') }}" class="btn btn-primary btn-sm">
+            {{ ux_icon('mdi:plus') }} Nouvelle saison
+        </a>
+    </div>
+    <div class="admin-card-body">
+        {{ component('DataTable', {
+            entityClass: entityClass,
+            routePrefix: 'admin_season'
+        }) }}
+    </div>
+</div>
+{% endblock %}
+

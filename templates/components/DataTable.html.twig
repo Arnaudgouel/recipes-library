@@ -1,0 +1,364 @@
+<div {{ attributes.defaults(stimulus_controller('datatable')) }}>
+    {# Barre d'outils avec filtres et colonnes #}
+    <div class="mb-3 d-flex justify-content-between align-items-start">
+        <div class="d-flex gap-2">
+            {# Dropdown Filtres #}
+            {% set configuredFilters = this.getConfiguredFilters %}
+            {% if configuredFilters|length > 0 %}
+                <div>
+                    <button 
+                        class="btn btn-sm btn-outline-primary" 
+                        type="button" 
+                        id="filtersButton"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#filtersDropdown"
+                        aria-controls="#filtersDropdown"
+                        aria-expanded="false"
+                    >
+                        {{ ux_icon('mdi:filter') }} Filtres
+                        {% if this.getActiveFiltersCount() > 0 %}
+                            <span class="badge bg-danger ms-1">{{ this.getActiveFiltersCount }}</span>
+                        {% endif %}
+                    </button>
+                <div id="filtersDropdown" class="collapse p-3 card w-100" aria-labelledby="filtersDropdown" style="min-width: 300px;">
+                    <div class="d-flex gap-2 card-body w-100">
+                    {% for filterName, filterConfig in configuredFilters %}
+                        <div class="mb-3">
+                            <label class="form-label small">{{ filterConfig.getLabel() }}</label>
+                            {% set fieldType = filterConfig.type %}
+                            {% set filterOptions = filterConfig.options ?? {} %}
+                            
+                            {# Filtre de plage de dates #}
+                            {% if fieldType == 'date_range' or (fieldType in ['datetime', 'date'] and filterOptions.use_range ?? false) %}
+                                {% set dateFilterValue = this.filters[filterName] ?? {} %}
+                                {% set dateFrom = dateFilterValue.from ?? (dateFilterValue is iterable ? '' : dateFilterValue) %}
+                                {% set dateTo = dateFilterValue.to ?? '' %}
+                                <div class="d-flex gap-2">
+                                    <div class="flex-fill">
+                                        <label class="form-label small text-muted">Du</label>
+                                        <input 
+                                            type="date" 
+                                            class="form-control form-control-sm" 
+                                            value="{{ dateFrom }}"
+                                            data-model="filters.{{filterName}}.from"
+                                        >
+                                    </div>
+                                    <div class="flex-fill">
+                                        <label class="form-label small text-muted">Au</label>
+                                        <input 
+                                            type="date" 
+                                            class="form-control form-control-sm" 
+                                            value="{{ dateTo }}"
+                                            data-model="filters.{{filterName}}.to"
+                                        >
+                                    </div>
+                                </div>
+                            {# Filtre entity avec select #}
+                            {% elseif fieldType == 'entity' and not (filterOptions.autocomplete ?? false) %}
+                                {% set entityOptions = this.getEntityOptions(filterName) %}
+                                <select 
+                                    class="form-select form-select-sm"
+                                    data-model="filters.{{filterName}}"
+                                >
+                                    <option value="">Tous</option>
+                                    {% for option in entityOptions %}
+                                        <option value="{{ option.id }}" {% if (this.filters[filterName] ?? '') == option.id %}selected{% endif %}>
+                                            {{ option.label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            {# Filtre entity avec autocomplete #}
+                            {% elseif fieldType == 'entity' and (filterOptions.autocomplete ?? false) %}
+                                {% set autocompleteRoute = this.getFilterAutocompleteRoute(filterName) %}
+                                {% set targetEntity = this.getFilterTargetEntity(filterName) %}
+                                {% if targetEntity and autocompleteRoute %}
+                                    <input 
+                                    type="hidden" 
+                                    data-filter-value-name="{{ filterName }}" 
+                                    data-model="debounce(400)|filters.{{filterName}}"
+                                    >
+                                    <select
+                                        name="filters_{{filterName}}"
+                                        data-filter-name="{{ filterName }}"
+                                        {{
+                                            stimulus_controller('symfony/ux-autocomplete/autocomplete', {
+                                            url: path(autocompleteRoute.route, {
+                                                alias: autocompleteRoute.alias,
+                                            })
+                                        })
+                                        }}
+                                        data-datatable-target="autocompleteField"
+                                    >
+                                    </select>
+                                {% else %}
+                                    <input 
+                                        type="text" 
+                                        class="form-control form-control-sm" 
+                                        placeholder="Rechercher..."
+                                        value="{{ this.filters[filterName] ?? '' }}"
+                                        data-model="debounce(400)|filters.{{filterName}}"
+                                    >
+                                {% endif %}
+                            {# Filtre string/text #}
+                            {% elseif fieldType in ['string', 'text'] %}
+                                <input 
+                                    type="text" 
+                                    class="form-control form-control-sm" 
+                                    placeholder="Rechercher..."
+                                    value="{{ this.filters[filterName] ?? '' }}"
+                                    data-model="debounce(400)|filters.{{filterName}}"
+                                >
+                            {# Filtre choice #}
+                            {% elseif fieldType == 'choice' %}
+                                {% set choices = filterOptions.choices ?? {} %}
+                                <select 
+                                    class="form-select form-select-sm"
+                                    data-model="filters.{{filterName}}"
+                                >
+                                    <option value="">{{ filterOptions.empty_value|default('Tous') }}</option>
+                                    {% for value, label in choices %}
+                                        <option value="{{ value }}" {% if (this.filters[filterName] ?? '') == value %}selected{% endif %}>
+                                            {{ label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <input 
+                                    type="text" 
+                                    class="form-control form-control-sm" 
+                                    placeholder="Filtrer..."
+                                    value="{{ this.filters[filterName] ?? '' }}"
+                                    data-model="debounce(400)|filters.{{filterName}}"
+                                >
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    </div>
+                    {% if this.getActiveFiltersCount > 0 %}
+                        <div class="dropdown-divider"></div>
+                        <button 
+                            class="btn btn-sm btn-outline-danger w-100"
+                            data-action="live#action"
+                            data-live-action-param="clearFilters"
+                        >
+                            Réinitialiser les filtres
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        {# Bouton d'export Excel #}
+        {% if this.exportable %}
+        <a 
+            href="{{ path('admin_datatable_export', {
+                'entity_class': this.entityClass,
+                'sort_column': this.sortColumn,
+                'sort_direction': this.sortDirection,
+                'filters': this.filters|json_encode,
+                'columns': this.allColumns|json_encode
+            }) }}"
+            class="btn btn-sm btn-outline-success d-flex align-items-center gap-2"
+            target="_blank"
+        >
+            {{ ux_icon('vscode-icons:file-type-excel2') }} Exporter
+        </a>
+        {% endif %}
+        </div>
+
+        {# Sélection des colonnes #}
+        <div class="dropdown">
+            <button 
+                class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2" 
+                type="button" 
+                id="columnsDropdown"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                aria-expanded="false"
+            >
+                {{ ux_icon('cuida:chart-column-outline') }} Colonnes
+            </button>
+            <div class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="columnsDropdown" style="min-width: 250px;">
+                <h6 class="dropdown-header">Colonnes visibles</h6>
+                {% for fieldName, fieldConfig in this.getAllColumns %}
+                    <div class="form-check">
+                        <input 
+                            class="form-check-input" 
+                            type="checkbox" 
+                            id="col_{{ fieldName }}"
+                            {% if fieldConfig.visible %}checked{% endif %}
+                            data-action="live#action"
+                            data-live-action-param="toggleColumn"
+                            data-live-column-param="{{ fieldName }}"
+                        >
+                        <label class="form-check-label" for="col_{{ fieldName }}">
+                            {{ fieldConfig.label }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# Tableau #}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    {% for fieldName, fieldConfig in this.getVisibleColumns %}
+                        <th scope="col">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span>{{ fieldConfig.label }}</span>
+                                {% if fieldConfig.sortable %}
+                                <button 
+                                    class="btn btn-sm btn-link text-white p-0 ms-2"
+                                    data-action="live#action"
+                                    data-live-action-param="sort"
+                                    data-live-column-param="{{ fieldName }}"
+                                    title="Trier par {{ fieldConfig.label }}"
+                                >
+                                    {% if this.sortColumn == fieldName %}
+                                        {% if this.sortDirection == 'ASC' %}
+                                            ▲
+                                        {% else %}
+                                            ▼
+                                        {% endif %}
+                                    {% else %}
+                                        ↕
+                                    {% endif %}
+                                </button>
+                                {% endif %}
+                            </div>
+                        </th>
+                    {% endfor %}
+                    {% if this.hasActions() or this.getRoutePrefixValue() %}
+                        <th scope="col">Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in this.getItemsData() %}
+                    <tr>
+                        {% for fieldName, fieldConfig in this.getVisibleColumns() %}
+                            <td>{{ this.renderField(item, fieldName)|raw }}</td>
+                        {% endfor %}
+                        {% if this.hasActions() or this.getRoutePrefixValue() %}
+                            <td>
+                                {% if this.hasActions() %}
+                                    <div class="d-flex gap-1" role="group">
+                                        {% for actionName, actionConfig in this.getConfiguredActions() %}
+                                            {% set renderedAction = this.renderAction(item, actionName) %}
+                                            {% if renderedAction %}
+                                                {{ renderedAction|raw }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="btn-group" role="group">
+                                        <a 
+                                            href="{{ path(this.getRoutePrefixValue() ~ '_show', {id: item.id}) }}" 
+                                            class="btn btn-sm btn-info"
+                                        >
+                                            Voir
+                                        </a>
+                                        <a 
+                                            href="{{ path(this.getRoutePrefixValue() ~ '_edit', {id: item.id}) }}" 
+                                            class="btn btn-sm btn-warning"
+                                        >
+                                            Modifier
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="{{ this.getVisibleColumns()|length + (this.hasActions() or this.getRoutePrefixValue() ? 1 : 0) }}" class="text-center text-muted py-4">
+                            Aucun résultat trouvé
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {# Pagination et éléments par page #}
+    <div class="position-sticky bottom-0 bg-white d-flex justify-content-between align-items-center py-2">
+        <div class="d-flex justify-content-start align-items-center">
+            <div class="btn-group" role="group">
+                {% for size in [10, 25, 50, 100] %}
+                <button 
+                    type="button"
+                    class="btn btn-sm {% if this.itemsPerPage == size %}btn-primary{% else %}btn-outline-primary{% endif %}"
+                    data-action="live#action"
+                    data-live-action-param="setItemsPerPage"
+                    data-live-items-per-page-param="{{ size }}"
+                >
+                    {{ size }}
+                </button>
+                {% endfor %}
+            </div>
+            <small class="text-muted ms-2">
+                {{ this.itemsPerPage }} éléments par page
+            </small>
+        </div>
+
+        <div class="text-center text-muted">
+            {{ ((this.page - 1) * this.itemsPerPage) + 1 }} - {{ min(this.page * this.itemsPerPage, this.totalItemsCount) }} sur {{ this.totalItemsCount }}
+        </div>
+
+        {% set totalPages = this.totalPagesCount %}
+        {% if totalPages > 1 %}
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center mb-0">
+                    <li class="page-item {% if this.page == 1 %}disabled{% endif %}">
+                        <button 
+                            class="page-link"
+                            {% if this.page > 1 %}
+                                data-action="live#action"
+                                data-live-action-param="setPage"
+                                data-live-page-param="{{ this.page - 1 }}"
+                            {% endif %}
+                        >
+                            {{ ux_icon('icon-park-outline:left') }}
+                        </button>
+                    </li>
+                    
+                    {% for page in 1..totalPages %}
+                        {% if page == 1 or page == totalPages or (page >= this.page - 2 and page <= this.page + 2) %}
+                            <li class="page-item {% if page == this.page %}active{% endif %}">
+                                <button 
+                                    class="page-link"
+                                    data-action="live#action"
+                                    data-live-action-param="setPage"
+                                    data-live-page-param="{{ page }}"
+                                >
+                                    {{ page }}
+                                </button>
+                            </li>
+                        {% elseif page == this.page - 3 or page == this.page + 3 %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    <li class="page-item {% if this.page == totalPages %}disabled{% endif %}">
+                        <button 
+                            class="page-link"
+                            {% if this.page < totalPages %}
+                                data-action="live#action"
+                                data-live-action-param="setPage"
+                                data-live-page-param="{{ this.page + 1 }}"
+                            {% endif %}
+                        >
+                            {{ ux_icon('icon-park-outline:right') }}
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+</div>
+

@@ -1,0 +1,199 @@
+<div {{ attributes }}>
+    {{ form_start(form) }}
+    
+    <div class="row mb-4">
+        <div class="col-md-8">
+            {{ form_row(form.title) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.image) }}
+        </div>
+    </div>
+    
+    <div class="mb-4">
+        {{ form_row(form.description) }}
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-4">
+            {{ form_row(form.servings) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.prepMinutes) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.cookMinutes) }}
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <label class="form-label">Catégories</label>
+            <div class="d-flex flex-wrap gap-2">
+                {% for child in form.category %}
+                    <div class="form-check">
+                        {{ form_widget(child) }}
+                        {{ form_label(child) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Saisons</label>
+            <div class="d-flex flex-wrap gap-2">
+                {% for child in form.seasons %}
+                    <div class="form-check">
+                        {{ form_widget(child) }}
+                        {{ form_label(child) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    {# Ingrédients avec Live Collection #}
+    <div class="admin-card mb-4">
+        <div class="admin-card-header">
+            <h6 class="admin-card-title mb-0">Ingrédients</h6>
+            <div class="d-flex gap-2">
+                <button
+                    type="button"
+                    class="btn btn-outline-success btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#new-ingredient-modal"
+                >
+                    {{ ux_icon('mdi:plus') }} Nouvel ingrédient
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    data-action="live#action"
+                    data-live-action-param="addCollectionItem(name=formData[recipeIngredients])"
+                >
+                    {{ ux_icon('mdi:plus') }} Ajouter un ingrédient
+                </button>
+            </div>
+        </div>
+        <div class="admin-card-body">
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;">Pos.</th>
+                            <th>Ingrédient</th>
+                            <th style="width: 100px;">Quantité</th>
+                            <th style="width: 150px;">Unité</th>
+                            <th style="width: 100px;">Affichage</th>
+                            <th>Note</th>
+                            <th style="width: 50px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ingredientForm in form.recipeIngredients %}
+                            <tr>
+                                <td>{{ form_widget(ingredientForm.position, {attr: {class: 'form-control form-control-sm'}}) }}</td>
+                                <td>{{ form_widget(ingredientForm.ingredient, {attr: {class: 'form-select form-select-sm'}}) }}</td>
+                                <td>{{ form_widget(ingredientForm.quantity, {attr: {class: 'form-control form-control-sm'}}) }}</td>
+                                <td>{{ form_widget(ingredientForm.unit, {attr: {class: 'form-select form-select-sm'}}) }}</td>
+                                <td>{{ form_widget(ingredientForm.displayQuantity, {attr: {class: 'form-control form-control-sm'}}) }}</td>
+                                <td>{{ form_widget(ingredientForm.note, {attr: {class: 'form-control form-control-sm'}}) }}</td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-danger btn-sm"
+                                        data-action="live#action"
+                                        data-live-action-param="removeCollectionItem(name=formData[recipeIngredients], index={{ loop.index0 }})"
+                                    >
+                                        {{ ux_icon('mdi:delete') }}
+                                    </button>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-3">
+                                    Aucun ingrédient. Cliquez sur "Ajouter un ingrédient" pour commencer.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    {# Étapes avec Live Collection #}
+    <div class="admin-card mb-4">
+        <div class="admin-card-header">
+            <h6 class="admin-card-title mb-0">Étapes de préparation</h6>
+            <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                data-action="live#action"
+                data-live-action-param="addCollectionItem(name=formData[recipeSteps])"
+            >
+                {{ ux_icon('mdi:plus') }} Ajouter une étape
+            </button>
+        </div>
+        <div class="admin-card-body">
+            {% for stepForm in form.recipeSteps %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="row align-items-start">
+                            <div class="col-md-1">
+                                {{ form_widget(stepForm.position, {attr: {class: 'form-control form-control-sm'}}) }}
+                            </div>
+                            <div class="col-md-8">
+                                {{ form_widget(stepForm.instruction, {attr: {class: 'form-control form-control-sm', rows: 2}}) }}
+                            </div>
+                            <div class="col-md-2">
+                                {{ form_widget(stepForm.durationMin, {attr: {class: 'form-control form-control-sm', placeholder: 'Durée (min)'}}) }}
+                            </div>
+                            <div class="col-md-1">
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-danger btn-sm"
+                                    data-action="live#action"
+                                    data-live-action-param="removeCollectionItem(name=formData[recipeSteps], index={{ loop.index0 }})"
+                                >
+                                    {{ ux_icon('mdi:delete') }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-center text-muted py-3">
+                    Aucune étape. Cliquez sur "Ajouter une étape" pour commencer.
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-between">
+        <a href="{{ path('admin_recipe_index') }}" class="btn btn-outline-secondary">
+            {{ ux_icon('mdi:arrow-left') }} Annuler
+        </a>
+        <button
+            type="button"
+            class="btn btn-primary"
+            data-action="live#action:prevent"
+            data-live-action-param="save"
+        >
+            {{ ux_icon('mdi:content-save') }} Enregistrer
+        </button>
+    </div>
+    
+    {{ form_end(form) }}
+    
+    {# Modal pour créer un nouvel ingrédient #}
+    {% component BootstrapModal with {id: 'new-ingredient-modal'} %}
+        {% block modal_header %}
+            <h5 class="modal-title">Nouvel ingrédient</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        {% endblock %}
+        {% block modal_body %}
+            <twig:NewIngredientForm />
+        {% endblock %}
+    {% endcomponent %}
+</div>
+

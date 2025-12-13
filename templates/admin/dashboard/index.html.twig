@@ -1,0 +1,100 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+{% block header_title %}Tableau de bord{% endblock %}
+
+{% block body %}
+<div class="row g-4 mb-4">
+    <div class="col-md-4 col-lg">
+        <div class="admin-card">
+            <div class="admin-card-body text-center">
+                <div class="display-6 text-primary mb-2">{{ stats.recipes }}</div>
+                <div class="text-muted">Recettes</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg">
+        <div class="admin-card">
+            <div class="admin-card-body text-center">
+                <div class="display-6 text-success mb-2">{{ stats.ingredients }}</div>
+                <div class="text-muted">Ingrédients</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg">
+        <div class="admin-card">
+            <div class="admin-card-body text-center">
+                <div class="display-6 text-warning mb-2">{{ stats.categories }}</div>
+                <div class="text-muted">Catégories</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg">
+        <div class="admin-card">
+            <div class="admin-card-body text-center">
+                <div class="display-6 text-info mb-2">{{ stats.seasons }}</div>
+                <div class="text-muted">Saisons</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg">
+        <div class="admin-card">
+            <div class="admin-card-body text-center">
+                <div class="display-6 text-secondary mb-2">{{ stats.users }}</div>
+                <div class="text-muted">Utilisateurs</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h5 class="admin-card-title">Accès rapide</h5>
+            </div>
+            <div class="admin-card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ path('admin_recipe_new') }}" class="btn btn-outline-primary">
+                        {{ ux_icon('mdi:plus') }} Nouvelle recette
+                    </a>
+                    <a href="{{ path('admin_ingredient_new') }}" class="btn btn-outline-success">
+                        {{ ux_icon('mdi:plus') }} Nouvel ingrédient
+                    </a>
+                    <a href="{{ path('admin_category_new') }}" class="btn btn-outline-warning">
+                        {{ ux_icon('mdi:plus') }} Nouvelle catégorie
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h5 class="admin-card-title">Liens utiles</h5>
+            </div>
+            <div class="admin-card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <a href="{{ path('app_home') }}" class="text-decoration-none">
+                            {{ ux_icon('mdi:home') }} Voir le site public
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{{ path('admin_recipe_index') }}" class="text-decoration-none">
+                            {{ ux_icon('mdi:food') }} Gérer les recettes
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{{ path('admin_ingredient_index') }}" class="text-decoration-none">
+                            {{ ux_icon('mdi:carrot') }} Gérer les ingrédients
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
