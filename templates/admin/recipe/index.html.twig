@@ -8,10 +8,10 @@
     <div class="admin-card-header">
         <h5 class="admin-card-title">Liste des recettes</h5>
         <div class="d-flex gap-2">
-            <a href="{{ path('admin_recipe_import') }}" class="btn btn-outline-secondary btn-sm">
-                {{ ux_icon('mdi:file-import') }} Import CSV
+            <a href="{{ path('admin_recipe_import') }}" class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2">
+                {{ ux_icon('line-md:file-import-filled') }} Import CSV
             </a>
-            <a href="{{ path('admin_recipe_new') }}" class="btn btn-primary btn-sm">
+            <a href="{{ path('admin_recipe_new') }}" class="btn btn-primary btn-sm d-flex align-items-center gap-2">
                 {{ ux_icon('mdi:plus') }} Nouvelle recette
             </a>
         </div>

@@ -27,7 +27,11 @@
           <button class="btn btn-outline-light" type="submit">Rechercher</button>
         </form> #}
         {{ component('RecipeSearch') }}
+        {% if is_granted('ROLE_ADMIN') %}
+        <a type="button" href="{{ path('admin_dashboard') }}" class="btn btn-light mt-3 mt-lg-0 ms-lg-4">Administration</a>
+        {% else %}
         <a type="button" href="{{ path('app_login') }}" class="btn btn-light mt-3 mt-lg-0 ms-lg-4">Connexion</a>
+        {% endif %}
       </div>
     </div>
   </div>

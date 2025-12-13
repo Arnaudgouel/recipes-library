@@ -165,39 +165,6 @@
         </a>
         {% endif %}
         </div>
-
-        {# Sélection des colonnes #}
-        <div class="dropdown">
-            <button 
-                class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2" 
-                type="button" 
-                id="columnsDropdown"
-                data-bs-toggle="dropdown"
-                data-bs-auto-close="outside"
-                aria-expanded="false"
-            >
-                {{ ux_icon('cuida:chart-column-outline') }} Colonnes
-            </button>
-            <div class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="columnsDropdown" style="min-width: 250px;">
-                <h6 class="dropdown-header">Colonnes visibles</h6>
-                {% for fieldName, fieldConfig in this.getAllColumns %}
-                    <div class="form-check">
-                        <input 
-                            class="form-check-input" 
-                            type="checkbox" 
-                            id="col_{{ fieldName }}"
-                            {% if fieldConfig.visible %}checked{% endif %}
-                            data-action="live#action"
-                            data-live-action-param="toggleColumn"
-                            data-live-column-param="{{ fieldName }}"
-                        >
-                        <label class="form-check-label" for="col_{{ fieldName }}">
-                            {{ fieldConfig.label }}
-                        </label>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
     </div>
 
     {# Tableau #}

@@ -69,7 +69,7 @@ class DataTable
         int $itemsPerPage = 25,
         string $sortColumn = 'id',
         string $sortDirection = 'ASC',
-        bool $exportable = true
+        bool $exportable = false
     ): void {
         if ($entityClass !== null) {
             $this->entityClass = $entityClass;
