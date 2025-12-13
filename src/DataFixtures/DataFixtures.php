@@ -198,12 +198,9 @@ class DataFixtures extends Fixture
                    ->setServings($recipeData['servings'])
                    ->setPrepMinutes($recipeData['prepMinutes'])
                    ->setCookMinutes($recipeData['cookMinutes'])
-<<<<<<< HEAD
-                   ->addSeason($recipeData['season']);
-=======
+                   ->addSeason($recipeData['season'])
                    ->setNormalizedTitle(\App\Service\NormalizationService::normalizeAccents($recipeData['title']))
                    ->setNormalizedDescription(\App\Service\NormalizationService::normalizeAccents($recipeData['description']));
->>>>>>> 532933e6477adb6c511db4ecee56013f4eb58d30
 
             $manager->persist($recipe);
 
