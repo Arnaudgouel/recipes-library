@@ -8,9 +8,9 @@
     <div class="admin-card-header">
         <h5 class="admin-card-title">Liste des recettes</h5>
         <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#importModal">
+            <a href="{{ path('admin_recipe_import') }}" class="btn btn-outline-secondary btn-sm">
                 {{ ux_icon('mdi:file-import') }} Import CSV
-            </button>
+            </a>
             <a href="{{ path('admin_recipe_new') }}" class="btn btn-primary btn-sm">
                 {{ ux_icon('mdi:plus') }} Nouvelle recette
             </a>

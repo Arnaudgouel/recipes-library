@@ -8,12 +8,12 @@
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ path('admin') }}">
+                    <a href="{{ path('admin_dashboard') }}">
                         <i class="fa fa-home"></i> Admin
                     </a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\RecipeCrudController'}) }}">
+                    <a href="{{ path('admin_recipe_index') }}">
                         Recettes
                     </a>
                 </li>
@@ -86,7 +86,7 @@
                                     <i class="fa fa-upload"></i>
                                     Importer les recettes
                                 </button>
-                                <a href="{{ path('admin', {crudAction: 'index', crudControllerFqcn: 'App\\Controller\\Admin\\RecipeCrudController'}) }}" 
+                                <a href="{{ path('admin_recipe_index') }}" 
                                    class="btn btn-secondary">
                                     <i class="fa fa-arrow-left"></i>
                                     Retour à la liste des recettes
