@@ -28,26 +28,10 @@
     
     <div class="row mb-4">
         <div class="col-md-6">
-            <label class="form-label">Catégories</label>
-            <div class="d-flex flex-wrap gap-2">
-                {% for child in form.category %}
-                    <div class="form-check">
-                        {{ form_widget(child) }}
-                        {{ form_label(child) }}
-                    </div>
-                {% endfor %}
-            </div>
+            {{ form_row(form.category) }}
         </div>
         <div class="col-md-6">
-            <label class="form-label">Saisons</label>
-            <div class="d-flex flex-wrap gap-2">
-                {% for child in form.seasons %}
-                    <div class="form-check">
-                        {{ form_widget(child) }}
-                        {{ form_label(child) }}
-                    </div>
-                {% endfor %}
-            </div>
+            {{ form_row(form.seasons) }}
         </div>
     </div>
     

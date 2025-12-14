@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class RecipeType extends AbstractType
 {
@@ -29,10 +30,13 @@ class RecipeType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control', 'rows' => 3],
             ])
-            ->add('image', UrlType::class, [
-                'label' => 'URL de l\'image',
+            ->add('image', DropzoneType::class, [
+                'label' => 'Image',
                 'required' => false,
-                'attr' => ['class' => 'form-control'],
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Choisir une image',
+                ],
             ])
             ->add('servings', IntegerType::class, [
                 'label' => 'Portions',
@@ -54,7 +58,8 @@ class RecipeType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Catégories',
                 'multiple' => true,
-                'expanded' => true,
+                'expanded' => false,
+                'autocomplete' => true,
                 'required' => false,
             ])
             ->add('seasons', EntityType::class, [
@@ -62,7 +67,8 @@ class RecipeType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Saisons',
                 'multiple' => true,
-                'expanded' => true,
+                'expanded' => false,
+                'autocomplete' => true,
                 'required' => false,
             ])
             ->add('recipeIngredients', CollectionType::class, [
