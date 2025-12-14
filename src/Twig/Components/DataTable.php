@@ -541,6 +541,9 @@ class DataTable
                 throw new \RuntimeException('entityClass must be provided to DataTable component');
             }
             
+            // Charger le configurateur à chaque fois pour les requêtes Live Component
+            $this->configLoader->loadForEntity($this->entityClass);
+            
             $this->config = $this->dataTableFactory->getDataTableRegistry()->getByEntityClass($this->entityClass)
                 ?? $this->dataTableFactory->getOrCreateConfig($this->entityClass);
         }
