@@ -1,4 +1,4 @@
-:root,
+/* :root,
 [data-bs-theme="dark"],
 [data-bs-theme="light"] {
     --bs-primary-text-emphasis: #362121;
@@ -17,9 +17,9 @@
     --thumb-height: 18px;
     --thumb-width: 18px;
     --bs-form-select-indicator-color: white;
-}
+} */
 
-.btn-secondary {
+/* .btn-secondary {
     --bs-btn-color: #fff;
     --bs-btn-bg: var(--bs-secondary);
     --bs-btn-border-color: var(--bs-secondary);
@@ -34,17 +34,13 @@
     --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: var(--bs-secondary);
     --bs-btn-disabled-border-color: var(--bs-secondary);
-}
-
-body {
-    font-family: "Roboto", sans-serif;
-}
+} */
 
 .nav-link {
     color: var(--bs-emphasis-color);
 }
 
-.btn-light {
+/* .btn-light {
     background-color: var(--bs-light);
     color: var(--bs-primary-text-emphasis);
 }
@@ -175,7 +171,7 @@ h6 {
     margin-top: 1rem;
 }
 
-/* Styles pour la pagination */
+/* Styles pour la pagination 
 
 .pagination {
     --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-dark-rgb), 0.25);
@@ -203,7 +199,7 @@ h6 {
 }
 
 
-/* Responsive adjustments */
+/* Responsive adjustments 
 @media (max-width: 768px) {
     .recipe-listing-page .container-fluid {
         padding-left: 1rem;
@@ -220,7 +216,7 @@ h6 {
     }
 }
 
-/* Animation pour le chargement */
+/* Animation pour le chargement 
 .recipe-card {
     animation: fadeInUp 0.5s ease-out;
 }
@@ -245,7 +241,7 @@ h6 {
     filter: brightness(0.65);
 }
 
-/* Styles pour les sliders de recettes */
+/* Styles pour les sliders de recettes 
 .recipe-slider-container {
     position: relative;
     overflow-x: auto;
@@ -253,13 +249,13 @@ h6 {
     width: 100%;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox 
+    -ms-overflow-style: none; /* IE and Edge
     padding-bottom: 1rem;
 }
 
 .recipe-slider-container::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none; /* Chrome, Safari, Opera 
 }
 
 .recipe-slider-track {
@@ -300,7 +296,7 @@ h6 {
     transition: transform 0.2s ease-in-out;
 }
 
-/* Responsive pour les sliders */
+/* Responsive pour les sliders 
 @media (max-width: 768px) {
     .recipe-slider-item {
         width: calc(100vw - 3rem);
@@ -326,9 +322,9 @@ h6 {
     }
 }
 
-/* Limiter la largeur maximale des items du slider */
+/* Limiter la largeur maximale des items du slider
 @media (min-width: 1200px) {
     .recipe-slider-item {
         max-width: 350px;
     }
-}
+} */

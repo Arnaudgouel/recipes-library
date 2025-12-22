@@ -1,0 +1,17 @@
+// add your SASS styles in this file
+
+$primary: #2e2429;
+$secondary: #D2691E;
+$dark: #4b2e2d;
+$light: #f5f5dc;
+$body-bg: #F5F5DC;
+$bg-bottom-recipe-header: #ECECD1;
+$gradient: linear-gradient(to bottom, $body-bg, $bg-bottom-recipe-header);
+$track-height: 6px;
+$thumb-height: 18px;
+$thumb-width: 18px;
+$form-select-indicator-color: white;
+
+@import '../../vendor/twbs/bootstrap/scss/bootstrap';
+
+@import 'base';

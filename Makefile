@@ -26,7 +26,8 @@ build: ## Builds the Docker images
 
 up: ## Start the docker hub in detached mode (no logs)
 	@$(DOCKER_COMP) -f compose.yaml -f compose.override.yaml up --detach
-
+	@$(PHP_CONT) bin/console sass:build
+	
 start: build up ## Build and start the containers
 
 down: ## Stop the docker hub
@@ -83,3 +84,6 @@ rm: ## Remove all containers, images and volumes
 
 migrate: ## Run migrations
 	@$(PHP_CONT) bin/console doctrine:migrations:migrate --no-interaction
+
+sass: ## Compile SASS
+	@$(PHP_CONT) bin/console sass:build --watch
