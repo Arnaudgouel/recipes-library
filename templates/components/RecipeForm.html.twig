@@ -42,17 +42,19 @@
             <div class="d-flex gap-2">
                 <button
                     type="button"
-                    class="btn btn-outline-success btn-sm"
+                    class="btn btn-outline-success btn-sm d-flex align-items-center gap-1"
                     data-bs-toggle="modal"
                     data-bs-target="#new-ingredient-modal"
                 >
                     {{ ux_icon('mdi:plus') }} Nouvel ingrédient
                 </button>
+
                 <button
                     type="button"
-                    class="btn btn-outline-primary btn-sm"
+                    class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1"
                     data-action="live#action"
-                    data-live-action-param="addCollectionItem(name=formData[recipeIngredients])"
+                    data-live-action-param="addCollectionItem"
+                    data-live-name-param="{{form.recipeIngredients.vars.full_name}}"
                 >
                     {{ ux_icon('mdi:plus') }} Ajouter un ingrédient
                 </button>
