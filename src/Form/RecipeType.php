@@ -94,6 +94,8 @@ class RecipeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Recipe::class,
+            // Désactiver CSRF car le Live Component a sa propre protection
+            'csrf_protection' => false,
         ]);
     }
 }

@@ -75,7 +75,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for ingredientForm in form.recipeIngredients %}
+                        {% for key, ingredientForm in form.recipeIngredients %}
                             <tr>
                                 <td>{{ form_widget(ingredientForm.position, {attr: {class: 'form-control form-control-sm'}}) }}</td>
                                 <td>{{ form_widget(ingredientForm.ingredient, {attr: {class: 'form-select form-select-sm'}}) }}</td>
@@ -88,7 +88,9 @@
                                         type="button"
                                         class="btn btn-outline-danger btn-sm"
                                         data-action="live#action"
-                                        data-live-action-param="removeCollectionItem(name=formData[recipeIngredients], index={{ loop.index0 }})"
+                                        data-live-action-param="removeCollectionItem"
+                                        data-live-name-param="{{form.recipeIngredients.vars.full_name}}"
+                                        data-live-index-param="{{key}}"
                                     >
                                         {{ ux_icon('mdi:delete') }}
                                     </button>
@@ -165,9 +167,10 @@
             data-action="live#action:prevent"
             data-live-action-param="save"
         >
-            {{ ux_icon('mdi:content-save') }} Enregistrer
+            {{ ux_icon('mdi:content-save') }} Enregistrer la recette
         </button>
     </div>
+
     
     {{ form_end(form) }}
     
