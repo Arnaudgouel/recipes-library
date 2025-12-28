@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class RecipeIngredientType extends AbstractType
 {
@@ -46,14 +47,18 @@ class RecipeIngredientType extends AbstractType
                 'class' => Unit::class,
                 'choice_label' => 'label',
                 'label' => 'Unité',
-                'required' => false,
-                'placeholder' => 'Sans unité',
+                'required' => true,
+                'placeholder' => 'Choisir une unité',
                 'attr' => ['class' => 'form-select'],
-            ])
-            ->add('displayQuantity', TextType::class, [
-                'label' => 'Affichage quantité',
-                'required' => false,
-                'attr' => ['class' => 'form-control', 'placeholder' => 'ex: 1/2'],
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.label', 'ASC');
+                },
+                'constraints' => [
+                    new NotNull(
+                        message: 'Veuillez choisir une unité',
+                    ),
+                ],
             ])
             ->add('note', TextType::class, [
                 'label' => 'Note',

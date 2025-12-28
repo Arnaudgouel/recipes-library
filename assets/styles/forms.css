@@ -174,3 +174,7 @@ label[aria-required="true"]::after {
 }
 
 /* End Required Fields Star */
+
+.table-form-autocomplete.table-responsive {
+    overflow-x: visible;
+}

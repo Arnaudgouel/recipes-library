@@ -61,7 +61,7 @@
             </div>
         </div>
         <div class="admin-card-body">
-            <div class="table-responsive">
+            <div class="table-responsive table-form-autocomplete">
                 <table class="table table-sm">
                     <thead>
                         <tr>
@@ -69,7 +69,6 @@
                             <th>Ingrédient</th>
                             <th style="width: 100px;">Quantité</th>
                             <th style="width: 150px;">Unité</th>
-                            <th style="width: 100px;">Affichage</th>
                             <th>Note</th>
                             <th style="width: 50px;"></th>
                         </tr>
@@ -81,7 +80,6 @@
                                 <td>{{ form_widget(ingredientForm.ingredient, {attr: {class: 'form-select form-select-sm'}}) }}</td>
                                 <td>{{ form_widget(ingredientForm.quantity, {attr: {class: 'form-control form-control-sm'}}) }}</td>
                                 <td>{{ form_widget(ingredientForm.unit, {attr: {class: 'form-select form-select-sm'}}) }}</td>
-                                <td>{{ form_widget(ingredientForm.displayQuantity, {attr: {class: 'form-control form-control-sm'}}) }}</td>
                                 <td>{{ form_widget(ingredientForm.note, {attr: {class: 'form-control form-control-sm'}}) }}</td>
                                 <td>
                                     <button
@@ -117,23 +115,27 @@
                 type="button"
                 class="btn btn-outline-primary btn-sm"
                 data-action="live#action"
-                data-live-action-param="addCollectionItem(name=formData[recipeSteps])"
+                data-live-action-param="addCollectionItem"
+                data-live-name-param="{{form.recipeSteps.vars.full_name}}"
             >
                 {{ ux_icon('mdi:plus') }} Ajouter une étape
             </button>
         </div>
         <div class="admin-card-body">
-            {% for stepForm in form.recipeSteps %}
+            {% for key, stepForm in form.recipeSteps %}
                 <div class="card mb-2">
                     <div class="card-body">
                         <div class="row align-items-start">
                             <div class="col-md-1">
+                                {{ form_label(stepForm.position, 'Étape n°') }}
                                 {{ form_widget(stepForm.position, {attr: {class: 'form-control form-control-sm'}}) }}
                             </div>
                             <div class="col-md-8">
+                                {{ form_label(stepForm.instruction, 'Instruction') }}
                                 {{ form_widget(stepForm.instruction, {attr: {class: 'form-control form-control-sm', rows: 2}}) }}
                             </div>
                             <div class="col-md-2">
+                                {{ form_label(stepForm.durationMin, 'Durée (min)') }}
                                 {{ form_widget(stepForm.durationMin, {attr: {class: 'form-control form-control-sm', placeholder: 'Durée (min)'}}) }}
                             </div>
                             <div class="col-md-1">
@@ -141,7 +143,9 @@
                                     type="button"
                                     class="btn btn-outline-danger btn-sm"
                                     data-action="live#action"
-                                    data-live-action-param="removeCollectionItem(name=formData[recipeSteps], index={{ loop.index0 }})"
+                                    data-live-action-param="removeCollectionItem"
+                                    data-live-name-param="{{form.recipeSteps.vars.full_name}}"
+                                    data-live-index-param="{{key}}"
                                 >
                                     {{ ux_icon('mdi:delete') }}
                                 </button>
