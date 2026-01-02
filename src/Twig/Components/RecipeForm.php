@@ -48,7 +48,7 @@ class RecipeForm extends AbstractController
     }
 
     #[LiveAction]
-    public function save(): Response
+    public function save(): ?Response
     {
         $this->submitForm();
         
@@ -65,7 +65,8 @@ class RecipeForm extends AbstractController
             return $this->redirectToRoute('admin_recipe_index');
         }
         
-        return new Response(status: 422);
+        // Retourner null pour que le composant se re-rende avec les erreurs
+        return null;
     }
 }
 

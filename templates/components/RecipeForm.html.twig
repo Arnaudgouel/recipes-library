@@ -1,6 +1,14 @@
 <div {{ attributes }}>
     {{ form_start(form) }}
     
+    {# Affichage des erreurs globales #}
+    {# {% if not form.vars.valid and form.vars.submitted %}
+        <div class="alert alert-danger mb-4">
+            <strong>{{ ux_icon('mdi:alert-circle') }} Le formulaire contient des erreurs :</strong>
+            {{ form_errors(form) }}
+        </div>
+    {% endif %} #}
+    
     <div class="row mb-4">
         <div class="col-md-8">
             {{ form_row(form.title) }}
@@ -79,7 +87,10 @@
                                 <td>{{ form_widget(ingredientForm.position, {attr: {class: 'form-control form-control-sm'}}) }}</td>
                                 <td>{{ form_widget(ingredientForm.ingredient, {attr: {class: 'form-select form-select-sm'}}) }}</td>
                                 <td>{{ form_widget(ingredientForm.quantity, {attr: {class: 'form-control form-control-sm'}}) }}</td>
-                                <td>{{ form_widget(ingredientForm.unit, {attr: {class: 'form-select form-select-sm'}}) }}</td>
+                                <td>
+                                    {{ form_widget(ingredientForm.unit, {attr: {class: 'form-select form-select-sm'}}) }}
+                                    <small class="text-danger">{{ form_errors(ingredientForm.unit) }}</small>
+                                </td>
                                 <td>{{ form_widget(ingredientForm.note, {attr: {class: 'form-control form-control-sm'}}) }}</td>
                                 <td>
                                     <button
@@ -103,6 +114,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {{ form_errors(form.recipeIngredients) }}
             </div>
         </div>
     </div>
