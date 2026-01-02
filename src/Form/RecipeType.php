@@ -33,6 +33,7 @@ class RecipeType extends AbstractType
             ->add('image', DropzoneType::class, [
                 'label' => 'Image',
                 'required' => false,
+                'mapped' => false,
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Choisir une image',

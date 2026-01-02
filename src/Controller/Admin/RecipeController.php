@@ -7,16 +7,25 @@ use App\Form\RecipeType;
 use App\Service\CsvImportService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin/recipe')]
 #[IsGranted('ROLE_ADMIN')]
 class RecipeController extends AbstractController
 {
+    public function __construct(
+        private readonly SluggerInterface $slugger,
+        #[Autowire('%kernel.project_dir%/public/uploads/recipes-images')]
+        private readonly string $uploadDir,
+    ) {
+    }
+
     #[Route('', name: 'admin_recipe_index')]
     public function index(): Response
     {
@@ -33,6 +42,8 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->handleImageUpload($form, $recipe);
+            
             $em->persist($recipe);
             $em->flush();
             
@@ -54,6 +65,8 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->handleImageUpload($form, $recipe, $request);
+            
             $em->flush();
             
             $this->addFlash('success', 'Recette modifiée avec succès.');
@@ -65,6 +78,43 @@ class RecipeController extends AbstractController
             'recipe' => $recipe,
             'is_edit' => true,
         ]);
+    }
+
+    private function handleImageUpload($form, Recipe $recipe, ?Request $request = null): void
+    {
+        // Supprimer l'image si demandé
+        if ($request && $request->request->get('delete_image')) {
+            $currentImage = $recipe->getImage();
+            if ($currentImage) {
+                $imagePath = $this->uploadDir . '/' . $currentImage;
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+                $recipe->setImage(null);
+            }
+            return;
+        }
+        
+        /** @var UploadedFile|null $imageFile */
+        $imageFile = $form->get('image')->getData();
+        
+        if ($imageFile) {
+            // Supprimer l'ancienne image si elle existe
+            $currentImage = $recipe->getImage();
+            if ($currentImage) {
+                $imagePath = $this->uploadDir . '/' . $currentImage;
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
+            
+            $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $this->slugger->slug($originalFilename);
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+            
+            $imageFile->move($this->uploadDir, $newFilename);
+            $recipe->setImage($newFilename);
+        }
     }
 
     #[Route('/{id}/delete', name: 'admin_recipe_delete', methods: ['GET', 'POST'])]
