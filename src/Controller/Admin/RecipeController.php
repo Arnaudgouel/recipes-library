@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Recipe;
 use App\Form\RecipeType;
 use App\Service\CsvImportService;
+use App\Service\RecipeImportService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/admin/recipe')]
+#[Route('/admin')]
 #[IsGranted('ROLE_ADMIN')]
 class RecipeController extends AbstractController
 {
@@ -26,7 +27,7 @@ class RecipeController extends AbstractController
     ) {
     }
 
-    #[Route('', name: 'admin_recipe_index')]
+    #[Route('/recipe', name: 'admin_recipe_index')]
     public function index(): Response
     {
         return $this->render('admin/recipe/index.html.twig', [
@@ -34,7 +35,7 @@ class RecipeController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'admin_recipe_new')]
+    #[Route('/recipe/new', name: 'admin_recipe_new')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $recipe = new Recipe();
@@ -58,7 +59,7 @@ class RecipeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_recipe_edit')]
+    #[Route('/recipe/{id}/edit', name: 'admin_recipe_edit')]
     public function edit(Recipe $recipe, Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(RecipeType::class, $recipe);
@@ -117,7 +118,7 @@ class RecipeController extends AbstractController
         }
     }
 
-    #[Route('/{id}/delete', name: 'admin_recipe_delete', methods: ['GET', 'POST'])]
+    #[Route('/recipe/{id}/delete', name: 'admin_recipe_delete', methods: ['GET', 'POST'])]
     public function delete(Recipe $recipe, EntityManagerInterface $em): Response
     {
         $em->remove($recipe);
@@ -127,22 +128,35 @@ class RecipeController extends AbstractController
         return $this->redirectToRoute('admin_recipe_index');
     }
 
-    #[Route('/import', name: 'admin_recipe_import', methods: ['POST'])]
-    public function import(Request $request, CsvImportService $csvImportService): Response
+    #[Route('/recipe-import', name: 'admin_recipe_import', methods: ['GET', 'POST'])]
+    public function import(Request $request, RecipeImportService $importService): Response
     {
-        /** @var UploadedFile|null $file */
-        $file = $request->files->get('csv_file');
-        
-        if ($file) {
-            try {
-                $count = $csvImportService->importRecipes($file);
-                $this->addFlash('success', sprintf('%d recettes importées avec succès.', $count));
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Erreur lors de l\'import : ' . $e->getMessage());
+        if ($request->isMethod('POST')) {
+            $file = $request->files->get('csv_file');
+
+            if (!$file) {
+                $this->addFlash('error', 'Veuillez sélectionner un fichier CSV.');
+                return $this->render('admin/recipe/import.html.twig');
+            }
+
+            $result = $importService->importFromCsv($file);
+
+            if ($result['success']) {
+                $this->addFlash(
+                    'success',
+                    sprintf('Import réussi ! %d recette(s) importée(s) avec succès.', $result['imported'])
+                );
+
+                return $this->redirectToRoute('admin_recipe_index');
+            } else {
+                return $this->render('admin/recipe/import.html.twig', [
+                    'errors' => $result['errors']
+                ]);
             }
         }
 
-        return $this->redirectToRoute('admin_recipe_index');
+        return $this->render('admin/recipe/import.html.twig');
     }
+    
 }
 
