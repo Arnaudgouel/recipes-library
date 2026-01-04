@@ -68,7 +68,7 @@ class CreateAdminCommand extends Command
         }
 
         // Définir les rôles d'administrateur
-        $user->setRoles(['ROLE_ADMIN', 'ROLE_USER']);
+        $user->setRoles(['ROLE_SUPER_ADMIN', 'ROLE_USER']);
 
         // Hasher le mot de passe
         $hashedPassword = $this->passwordHasher->hashPassword($user, $password);
