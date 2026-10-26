@@ -31,6 +31,8 @@
 	encode zstd br gzip
 
 	mercure {
+		# Keep publisher_jwt/subscriber_jwt (compatibility mode required since Mercure bundled in FrankenPHP 1.13)
+		protocol_version_compatibility 8
 		# Publisher JWT key
 		publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
 		# Subscriber JWT key
